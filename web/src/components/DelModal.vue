@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--<page-loader :loading="true"></page-loader>-->
     <div class="del-modal-backdrop">
       <div class="del-modal">
         <div class="modal-header">
@@ -27,11 +26,11 @@
 </template>
 <script>
   import BaseUrl from '../../config/url.config'
-  //import pageLoader from './PageLoader.vue'
+
   export default {
     name: 'EditModal',
     components: {
-      //  pageLoader
+
     },
     props:{
       deleteColumn:{

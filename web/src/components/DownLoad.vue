@@ -1,23 +1,24 @@
 <template>
   <div>
-    <!--<page-loader :loading="true"></page-loader>-->
     <div class="del-modal-backdrop">
       <div class="del-modal">
         <div class="modal-header">
           <slot name="header">
-            提交前请确认下载的数据是否正确
+            导出前请确认下载的数据是否正确
           </slot>
         </div>
         <div class="modal-body">
           <slot name="body">
-            <v-table :columns="columnsDownload"
-                     :table-data="downloadColumn">
+            <v-table
+              even-bg-color="#f2f2f2"
+              :columns="columnsDownload"
+              :table-data="downloadColumn">
             </v-table>
           </slot>
         </div>
         <div class="modal-footer">
           <slot name="footer">
-            <button type="button" class="btn-submit" @click="downloadSubmit">提交</button>
+            <button type="button" class="btn-submit" @click="downloadSubmit">导出</button>
             <button type="button" class="btn-close" @click="close">关闭</button>
           </slot>
         </div>
@@ -27,11 +28,11 @@
 </template>
 <script>
   import BaseUrl from '../../config/url.config'
-  //import pageLoader from './PageLoader.vue'
+  import { export_json_to_excel } from '../vendor/Export2Excel'
   export default {
     name: 'EditModal',
     components: {
-      //  pageLoader
+
     },
     props:{
       downloadColumn:{
@@ -56,33 +57,27 @@
           {field: 'PLANE_MTOW', title: '最大落地重量',width: 80, titleAlign: 'center',columnAlign:'left'},
           {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 180, titleAlign: 'center',columnAlign:'center'}
         ],
-        loading: false,
+
       }
     },
     methods: {
       close: function () {
         this.$emit('close', 'download');
       },
-
+      formatJson(filterVal, jsonData){
+        return jsonData.map(v => filterVal.map(j => v[j]))
+      },
       downloadSubmit () {
-
+         let tHeader = ['所属航空公司','机号','机型','飞机布局','CND表号',
+           '基本重量','基本指数','最大无油重量','最大起飞重量','最大落地重量','更新时间'];
+         let filterVal = ['PLANE_AIRLINES','PLANE_REG','PLANE_TYPE', 'PLANE_BUJU',
+           'PLANE_CND','PLANE_BOW','PLANE_BOI','PLANE_MZFW', 'PLANE_MZDW',
+           'PLANE_MTOW','PLANE_UPDATE_DATE'];
+         let list = this.downloadColumn;
+         let data = this.formatJson(filterVal, list);
+         export_json_to_excel(tHeader, data, 'pz_list')
       }
-//      deleteSubmit: function () {
-//        this.$http.post(BaseUrl.url+'/pz/delete', {'PLANE_ID':this.deleteColumn[0]['PLANE_ID']})
-//          .then((data)=>{
-//            if (data.body) {
-//              let params = {};
-//              params['modal'] = 'delete';
-//              params['data'] = this.deleteColumn[0];
-//              this.$emit('success', params);
-//            }else{
-//              alert("数据删除失败！")
-//            }
-//          },(error)=>{
-//            alert("数据删除失败！")
-//            console.log(error)
-//          });
-//      }
+
     }
   }
 </script>

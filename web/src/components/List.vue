@@ -71,7 +71,7 @@
       EditModal,
       DeleteModal,
       AddModal,
-      DownloadModal
+      DownloadModal,
     },
     data() {
       return {
@@ -300,6 +300,7 @@
 
     }
   }
+
   // 自定义列组件
   Vue.component('table-operation',{
     template:`<span><a href="" @click.stop.prevent="updateRow(rowData,index)">编辑</a>&nbsp;
