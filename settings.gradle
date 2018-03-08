@@ -1,0 +1,4 @@
+rootProject.name = 'plat'
+include 'web'
+include 'server'
+
