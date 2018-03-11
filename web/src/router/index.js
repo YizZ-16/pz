@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/user/Login'
 //import Upload from '@/components/Upload'
-import List from '@/components/List'
+import Maintain from '@/components/Maintain'
 
 Vue.use(Router)
 
@@ -11,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
+      name: 'first page',
       component: Login
     },
     {
@@ -25,9 +25,9 @@ export default new Router({
     //   component: Upload
     // },
     {
-      path: '/list',
-      name: 'list',
-      component: List
+      path: '/maintain',
+      name: 'Maintain',
+      component: Maintain
     }
 
   ]

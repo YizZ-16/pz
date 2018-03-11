@@ -1,4 +1,5 @@
 <template>
+  <div id = "app">
   <el-container>
     <el-header class="head"></el-header>
     <el-container class="content">
@@ -25,6 +26,7 @@
       <!--<router-view/>-->
     <!--</div>-->
   <!--</div>-->
+  </div>
 </template>
 
 <script>
