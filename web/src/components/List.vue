@@ -1,77 +1,98 @@
 <template>
   <div id = 'list'>
-    <div id = 'head'>
-      航空公司：
-      <input v-model="airline" value=""/>
-      机号：
-      <input v-model="reg" value=""/>
-      <button type="button" class="btn-search" @click="customSearch">查询</button>
-      <button type="button" class="btn-download" @click="download">下载</button>
-      <button type="button" class="btn-add" @click="addRow">增加</button>
-    </div>
-    <div id = 'body'>
-      <v-table
-        :select-all="selectALL"
-        :select-change="selectChange"
-        :select-group-change="selectGroupChange"
+    <el-container>
+      <el-header>
+        <el-row>
+          航空公司：
+          <el-input v-model="airline" placeholder="请输入内容" clearable/>
+          机号：
+          <el-input v-model="reg" placeholder="请输入内容" clearable/>
+          <el-button type="button" class="btn-search" @click="customSearch">查询</el-button>
+          <el-button type="button" class="btn-download" @click="download">下载</el-button>
+          <el-button type="button" class="btn-add" @click="addRow">增加</el-button>
+        </el-row>
+      </el-header>
+      <el-main>
+        <el-row>
+          <v-table
+            :select-all="selectALL"
+            :select-change="selectChange"
+            :select-group-change="selectGroupChange"
+            is-vertical-resize
+            :vertical-resize-offset='60'
+            is-horizontal-resize
+            style="width:100%"
+            :multiple-sort="false"
+            :min-height="350"
+            row-hover-color="#eee"
+            row-click-color="#edf7ff"
 
-        is-vertical-resize
-        :vertical-resize-offset='60'
-        is-horizontal-resize
-        style="width:100%"
-        :multiple-sort="false"
-        :min-height="350"
-        row-hover-color="#eee"
-        row-click-color="#edf7ff"
+            even-bg-color="#f2f2f2"
+            @on-custom-comp="customCompFunc"
+            :columns="columns"
+            :table-data="tableData">
+          </v-table>
+          <div class="mt20 mb20 bold"></div>
+          <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange"
+                        :total="totalElements" :page-size="pageSize"
+                        :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']">
+          </v-pagination>
+          <edit-modal v-if="isEditModalVisible"
+                      :editColumn="editColumn"
+                      v-on:close="modalClose"
+                      v-on:success="modalSuccess">
+          </edit-modal>
+          <delete-modal v-if="isDeleteModalVisible"
+                        :deleteColumn="deleteColumn"
+                        v-on:close="modalClose"
+                        v-on:success="modalSuccess">
+          </delete-modal>
+          <add-modal v-if="isAddModalVisible"
+                     v-on:close="modalClose"
+                     v-on:success="modalSuccess">
+          </add-modal>
 
-        even-bg-color="#f2f2f2"
-        @on-custom-comp="customCompFunc"
-        :columns="columns"
-        :table-data="tableData">
-      </v-table>
-      <div class="mt20 mb20 bold"></div>
-      <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange"
-                    :total="totalElements" :page-size="pageSize"
-                    :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']">
-      </v-pagination>
-      <edit-modal v-if="isEditModalVisible"
-                  :editColumn="editColumn"
-                  v-on:close="modalClose"
-                  v-on:success="modalSuccess">
-      </edit-modal>
-      <delete-modal v-if="isDeleteModalVisible"
-                    :deleteColumn="deleteColumn"
-                    v-on:close="modalClose"
-                    v-on:success="modalSuccess">
-      </delete-modal>
-      <add-modal v-if="isAddModalVisible"
-                 v-on:close="modalClose"
-                 v-on:success="modalSuccess">
-      </add-modal>
+          <download-modal v-if="isDownloadModalVisible"
+                          :downloadColumn = "downloadColumn"
+                          v-on:close="modalClose"></download-modal>
+          <upload-modal v-if="isUploadModalVisible"
+                        :uploadRowData="uploadModalRowData"
+                        v-on:close="modalClose">
 
-      <download-modal v-if="isDownloadModalVisible"
-                      :downloadColumn = "downloadColumn"
-                      v-on:close="modalClose"></download-modal>
-    </div>
+          </upload-modal>
+        </el-row>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 
 <script>
   import BaseUrl from '../../config/url.config'
-  import EditModal from './EditModal.vue'
-  import DeleteModal from './DelModal.vue'
-  import AddModal from './AddModel.vue'
-  import DownloadModal from './DownLoad.vue'
+  import EditModal from './modal/EditModal.vue'
+  import DeleteModal from './modal/DelModal.vue'
+  import AddModal from './modal/AddModel.vue'
+  import DownloadModal from './modal/DownLoad.vue'
+  import UploadModal from './modal/UploadModal.vue'
+
   import Vue from 'vue'
   import VTable from "../../node_modules/vue-easytable/libs/v-table/src/table.vue";
+  import ElContainer from "../../node_modules/element-ui/packages/container/src/main.vue";
+  import ElHeader from "../../node_modules/element-ui/packages/header/src/main.vue";
+  import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
+  import ElRow from "element-ui/packages/row/src/row";
   export default{
     components: {
+      ElRow,
+      ElInput,
+      ElHeader,
+      ElContainer,
       VTable,
       EditModal,
       DeleteModal,
       AddModal,
       DownloadModal,
+      UploadModal
     },
     data() {
       return {
@@ -84,11 +105,13 @@
         isDeleteModalVisible:false,
         isAddModalVisible:false,
         isDownloadModalVisible: false,
+        isUploadModalVisible: false,
         editColumn:[],
         deleteColumn: [],
         tableData: [],
         downloadColumn: [],
         tempDownloadColumn: [],
+        uploadModalRowData: [],
         columns: [
           {width: 60, titleAlign: 'center',columnAlign:'center',type: 'selection'},
           {field: 'PLANE_AIRLINES', title: '所属航空公司', width:50, titleAlign: 'center',columnAlign:'center'},
@@ -124,7 +147,8 @@
           this.isEditModalVisible = true;
           this.editColumn[0] = params.rowData;
         }else if (params.type === 'upload'){
-          this.isAddModalVisible = true;
+          this.uploadModalRowData = params.rowData;
+          this.isUploadModalVisible = true;
         }
       },
       customSearch() {
@@ -231,6 +255,9 @@
           this.isDownloadModalVisible = false;
           this.downloadColumn= [];
         }
+        if (type === 'upload') {
+          this.isUploadModalVisible = false;
+        }
       },
       modalSuccess(params) {
         if (params.modal === 'edit') {
@@ -303,9 +330,10 @@
 
   // 自定义列组件
   Vue.component('table-operation',{
-    template:`<span><a href="" @click.stop.prevent="updateRow(rowData,index)">编辑</a>&nbsp;
-              <a href="" @click.stop.prevent="deleteRow(rowData,index)">删除</a>&nbsp;
-              <a href="" @click.stop.prevent="uploadFile(rowData,index)">上传</a>
+    template:`<span>
+                <i class="el-icon-edit" @click.stop.prevent="updateRow(rowData,index)"></i>&nbsp;
+                <i class="el-icon-delete" @click.stop.prevent="deleteRow(rowData,index)"></i>&nbsp;
+                <i class="el-icon-upload" @click.stop.prevent="uploadFile(rowData,index)"></i>
               </span>`,
     props:{
       rowData:{
@@ -369,13 +397,12 @@
     color: #fff;
     background-color: #4aae9b;
     position: absolute;
-    right: 55%;
+    right: 45%;
     padding-right: 10px;
     padding-left: 10px;
   }
-
-  #head {
-    height: 50px;
-    text-align: left;
+  .el-input {
+    width:200px;
+    heigth: 30px;
   }
 </style>

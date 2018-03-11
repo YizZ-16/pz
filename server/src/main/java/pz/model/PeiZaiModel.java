@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashMap;
 
@@ -15,7 +16,7 @@ import java.util.HashMap;
 @Table(name = "PZ_PLANE_STATIC")
 @DynamicUpdate
 @NoArgsConstructor
-public class PeiZaiModel {
+public class PeiZaiModel implements Serializable {
 
     @Transient
     private static final long serialVersionUID = 1L;

@@ -1,23 +1,23 @@
 <template>
   <div>
-    <div class="add-modal-backdrop">
-      <div class="add-modal">
+    <div class="edit-modal-backdrop">
+      <div class="edit-modal">
         <div class="modal-header">
           <slot name="header">
-            提交前请确认数据是否正确
+            点击数据进行修改,提交前请确认数据是否正确
           </slot>
         </div>
         <div class="modal-body">
           <slot name="body">
-            <v-table :table-data="addColumn"
-                     :columns="columnsEdit"
+            <v-table :columns="columnsEdit"
+                     :table-data="editColumn"
                      :cell-edit-done="cellEditDone">
             </v-table>
           </slot>
         </div>
         <div class="modal-footer">
           <slot name="footer">
-            <button type="button" class="btn-submit" @click="addSubmit">提交</button>
+            <button type="button" class="btn-submit" @click="editSubmit">提交</button>
             <button type="button" class="btn-close" @click="close">关闭</button>
           </slot>
         </div>
@@ -26,14 +26,19 @@
   </div>
 </template>
 <script>
-  import BaseUrl from '../../config/url.config'
+  import BaseUrl from '../../../config/url.config'
   export default {
-    name: 'AddModal',
+    name: 'EditModal',
     components: {
+
     },
     props:{
+      editColumn:{
+        default:[]
+      }
     },
     mounted () {
+
     },
     data () {
       return {
@@ -51,42 +56,37 @@
           {field: 'PLANE_MTOW', title: '最大落地重量',width: 80, titleAlign: 'center',columnAlign:'left', isEdit:true},
           {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 180, titleAlign: 'center',columnAlign:'center', isEdit:true}
         ],
-        addColumn:[{'PLANE_AIRLINES':'','PLANE_REG':'','PLANE_TYPE':'','PLANE_BUJU':'',
-          'PLANE_CND':'','PLANE_BOW':'','PLANE_BOI':'','PLANE_MZFW':'','PLANE_MZDW':'',
-          'PLANE_MTOW':'','PLANE_UPDATE_DATE':''
-        }]
+        loading: false,
       }
-    },
+      },
     methods: {
       close: function () {
-        this.$emit('close', 'add');
+        this.$emit('close', 'edit');
       },
       cellEditDone: function (newValue,oldValue,rowIndex,rowData,field) {
-        this.addColumn[0][field] = newValue;
+        this.editColumn[0][field] = newValue;
       },
-      addSubmit: function () {
-        this.$http.post(BaseUrl.url+'/pz/add', this.addColumn[0])
+      editSubmit: function () {
+        this.$http.post(BaseUrl.url+'/pz/edit', this.editColumn[0])
           .then((data)=>{
-            if (data.body) {
-              let params = {};
-              params['modal'] = 'add';
-              params['data'] = this.addColumn[0];
-              //this.$emit('success', params);
-              this.$emit('close', 'add');
-
-            }else{
-              alert("数据添加失败！")
-            }
+              if (data.body) {
+                let params = {};
+                params['modal'] = 'edit';
+                params['data'] = this.editColumn[0];
+                this.$emit('success', params);
+              }else{
+                alert("数据更新失败！")
+              }
           },(error)=>{
-            alert("数据添加失败！")
-            console.log(error)
+              alert("数据更新失败！")
+              console.log(error)
           });
       }
     }
   }
 </script>
 <style scoped>
-  .add-modal-backdrop {
+  .edit-modal-backdrop {
     position: fixed;
     top: 0;
     right: 0;
@@ -97,7 +97,7 @@
     justify-content: center;
     align-items: center;
   }
-  .add-modal {
+  .edit-modal {
     background-color: #fff;
     box-shadow: 2px 2px 20px 1px;
     overflow-x:auto;

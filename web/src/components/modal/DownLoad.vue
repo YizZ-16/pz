@@ -27,8 +27,8 @@
   </div>
 </template>
 <script>
-  import BaseUrl from '../../config/url.config'
-  import { export_json_to_excel } from '../vendor/Export2Excel'
+  import BaseUrl from '../../../config/url.config'
+  import { export_json_to_excel } from '../../vendor/Export2Excel'
   export default {
     name: 'EditModal',
     components: {

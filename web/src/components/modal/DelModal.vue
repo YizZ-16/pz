@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-  import BaseUrl from '../../config/url.config'
+  import BaseUrl from '../../../config/url.config'
 
   export default {
     name: 'EditModal',
