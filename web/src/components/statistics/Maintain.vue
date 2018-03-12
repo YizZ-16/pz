@@ -1,15 +1,39 @@
 <template>
-  <div id = 'list'>
+  <div id = 'maintain'>
     <el-container>
-      <el-header>
+      <el-header style="height: 40px">
         <el-row>
-          航空公司：
-          <el-input v-model="airline" placeholder="请输入内容" clearable/>
-          机号：
-          <el-input v-model="reg" placeholder="请输入内容" clearable/>
-          <el-button type="button" class="btn-search" @click="customSearch">查询</el-button>
-          <el-button type="button" class="btn-download" @click="download">下载</el-button>
-          <el-button type="button" class="btn-add" @click="addRow">增加</el-button>
+          <el-col :span="6" style="text-align: left">
+              <a>航空公司:</a>
+              <input v-model="airline"/>
+          </el-col>
+          <el-col :span="6">
+            <a>机号:</a>
+            <input v-model="reg"/>
+          </el-col>
+          <el-col :span="3"><div><el-button type="button" @click="customSearch">查询</el-button></div></el-col>
+          <el-col :span="3"><div><el-button type="button"  @click="download">下载</el-button></div></el-col>
+          <el-col :span="3"><div ><el-button type="button" @click="addRow">增加</el-button></div></el-col>
+          <!--<el-col id="one" :span="240">-->
+            <!--航空公司：-->
+            <!--<el-input id='air-input' v-model="airline" placeholder="请输入内容" clearable/>-->
+          <!--</el-col>-->
+          <!--<el-col id="two">-->
+            <!--机号：-->
+            <!--<el-input id='reg-input' v-model="reg" placeholder="请输入内容" clearable/>-->
+          <!--</el-col>-->
+          <!--<el-col id="four">-->
+            <!--<el-button type="button" class="btn-search" @click="customSearch">查询</el-button>-->
+          <!--</el-col>-->
+          <!--<el-col id="five">-->
+            <!--<el-button type="button" class="btn-download" @click="download">下载</el-button>-->
+          <!--</el-col>-->
+          <!--<el-col id="six">-->
+            <!--<el-button type="button" class="btn-add" @click="addRow">增加</el-button>-->
+          <!--</el-col>-->
+        </el-row>
+        <el-row>
+
         </el-row>
       </el-header>
       <el-main>
@@ -60,6 +84,11 @@
                         v-on:close="modalClose">
 
           </upload-modal>
+          <el-alert title="alertMessage"
+                    type="error" @close="alertClose"
+                    v-if="alertMessage.length>1">
+
+          </el-alert>
         </el-row>
       </el-main>
     </el-container>
@@ -68,21 +97,25 @@
 
 
 <script>
-  import BaseUrl from '../../config/url.config'
-  import EditModal from './modal/EditModal.vue'
-  import DeleteModal from './modal/DelModal.vue'
-  import AddModal from './modal/AddModel.vue'
-  import DownloadModal from './modal/DownLoad.vue'
-  import UploadModal from './modal/UploadModal.vue'
+  import BaseUrl from '../../../config/url.config'
+  import EditModal from '../modal/EditModal.vue'
+  import DeleteModal from '../modal/DelModal.vue'
+  import AddModal from '../modal/AddModel.vue'
+  import DownloadModal from '../modal/DownLoad.vue'
+  import UploadModal from '../modal/UploadModal.vue'
 
   import Vue from 'vue'
-  import VTable from "../../node_modules/vue-easytable/libs/v-table/src/table.vue";
-  import ElContainer from "../../node_modules/element-ui/packages/container/src/main.vue";
-  import ElHeader from "../../node_modules/element-ui/packages/header/src/main.vue";
-  import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
+  import VTable from "../../../node_modules/vue-easytable/libs/v-table/src/table.vue";
+  import ElContainer from "../../../node_modules/element-ui/packages/container/src/main.vue";
+  import ElHeader from "../../../node_modules/element-ui/packages/header/src/main.vue";
+  import ElInput from "../../../node_modules/element-ui/packages/input/src/input.vue";
   import ElRow from "element-ui/packages/row/src/row";
+  import ElCol from "element-ui/packages/col/src/col";
+  import ElAlert from "../../../node_modules/element-ui/packages/alert/src/main.vue";
   export default{
     components: {
+      ElAlert,
+      ElCol,
       ElRow,
       ElInput,
       ElHeader,
@@ -112,6 +145,7 @@
         downloadColumn: [],
         tempDownloadColumn: [],
         uploadModalRowData: [],
+        alertMessage:'',
         columns: [
           {width: 60, titleAlign: 'center',columnAlign:'center',type: 'selection'},
           {field: 'PLANE_AIRLINES', title: '所属航空公司', width:50, titleAlign: 'center',columnAlign:'center'},
@@ -167,6 +201,7 @@
           this.searchByReg(params);
         }else{
           alert('请输入需要查询的条件内容')
+          //this.alertMessage = '请输入需要查询的条件内容';
         }
       },
       searchByAirlines(params){
@@ -401,8 +436,17 @@
     padding-right: 10px;
     padding-left: 10px;
   }
-  .el-input {
-    width:200px;
-    heigth: 30px;
+  /*.el-input {*/
+    /*width:200px;*/
+    /*heigth: 30px;*/
+  /*}*/
+  input{
+    width: 170px;
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 4px
+  }
+  .el-button {
+    height: 36px
   }
 </style>

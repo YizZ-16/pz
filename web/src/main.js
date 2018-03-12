@@ -14,19 +14,38 @@ import 'vue-easytable/libs/themes-base/index.css'
 // 导入 table 和 分页组件
 import {VTable,VPagination} from 'vue-easytable'
 
+import Vuex from 'vuex'
+
 Vue.config.productionTip = false
 Vue.use(VueResource)
 Vue.use(uploader)
 Vue.use(ElementUI)
 //Vue.use(VueAxios, axios)
 Vue.use(axios)
+Vue.use(Vuex)
 // 注册到全局
 Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 /* eslint-disable no-new */
+
+const store = new Vuex.Store({
+  state: {
+    user: {
+
+    }
+  },
+  mutations: {
+    set (state,user) {
+      state.user = user;
+    }
+  }
+
+})
+
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

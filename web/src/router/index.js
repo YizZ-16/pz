@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/user/Login'
 //import Upload from '@/components/Upload'
-import Maintain from '@/components/Maintain'
+import Maintain from '@/components/statistics/Maintain'
+import Main from '@/components/Main'
+import Register from '@/components/user/Register'
 
 Vue.use(Router)
 
@@ -19,16 +21,24 @@ export default new Router({
       name: 'login',
       component: Login
     },
-    // {
-    //   path: '/upload',
-    //   name: 'upload',
-    //   component: Upload
-    // },
     {
-      path: '/maintain',
-      name: 'Maintain',
-      component: Maintain
-    }
+      path: '/register',
+      name: 'register',
+      component: Register
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: Main,
+      children:[
+        {
+          path: '/maintain',
+          name: 'Maintain',
+          component: Maintain
+        }
+      ]
+    },
+
 
   ]
 })

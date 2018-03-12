@@ -46,5 +46,11 @@ dependencies {
     compile("org.apache.poi:poi-ooxml:3.9")
     compile("org.apache.xmlbeans:xmlbeans:2.4.0")
     compile ("org.json:json:20180130")
+    compile("org.apache.shiro:shiro-spring:1.4.0")
     testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+bootRun {
+    //gradle bootRun --debug-jvm
+    jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 }
