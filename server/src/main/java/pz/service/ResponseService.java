@@ -11,7 +11,7 @@ public class ResponseService {
 
     public HashMap<String, Object> success(Serializable data) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("CODE", ResponseCodeEnum.SUCCESS);
+        map.put("CODE", ResponseCodeEnum.SUCCESS.CODE);
         map.put("DATA", data);
         map.put("MESSAGE","");
         return map;
@@ -19,7 +19,7 @@ public class ResponseService {
 
     public HashMap<String, Object> fail(ResponseCodeEnum code, String message) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("CODE", code);
+        map.put("CODE", code.CODE);
         map.put("DATA", "");
         map.put("MESSAGE", message);
         return map;

@@ -35,11 +35,11 @@ public class LoginController {
             @RequestBody String user
     ) {
         JSONObject jsonObject = new JSONObject(user);
-        Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(
                 jsonObject.getString("ACCOUNT"),
                 jsonObject.getString("PASSWORD")
         );
+        Subject subject = SecurityUtils.getSubject();
         subject.login(token);
         return responseService.success("login success");
     }
