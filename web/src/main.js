@@ -21,13 +21,13 @@ Vue.use(VueResource)
 Vue.use(uploader)
 Vue.use(ElementUI)
 //Vue.use(VueAxios, axios)
-Vue.use(axios)
+//Vue.use(axios)
 Vue.use(Vuex)
 // 注册到全局
 Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 /* eslint-disable no-new */
-
+Vue.prototype.$axios = axios
 const store = new Vuex.Store({
   state: {
     user: {

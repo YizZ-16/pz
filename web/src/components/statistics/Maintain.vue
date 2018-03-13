@@ -229,7 +229,7 @@
           });
       },
       searchAll(params){
-        this.$http.post(BaseUrl.url+'/list/all',params)
+        this.$axios.post(BaseUrl.url+'/list/all',params)
           .then((data)=>{
             this.tableData = data.body.DATA_LIST;
             this.totalElements = data.body.TOTAL_ELEMENTS;

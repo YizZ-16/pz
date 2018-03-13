@@ -29,7 +29,7 @@
           </el-form-item>
           <el-form-item>
             <el-button @click="submit(ruleForm)">提交</el-button>
-            <el-button>重置</el-button>
+            <el-button @click="reset(ruleForm)">重置</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -65,9 +65,19 @@
     },
     methods : {
       submit (formData) {
-        console.log(formData)
-        this.$http.post('/api/login', {ACCOUNT:'gzjc', PASSWORD:'123'})
-          .then();
+        let userInfo = {};
+        userInfo['ACCOUNT'] = formData.account;
+        userInfo['NAME'] = formData.name;
+        userInfo['PASSWORD'] = formData.password;
+        userInfo['AIRPORT'] = formData.airport;
+        userInfo['TYPE'] = formData.type;
+        this.$axios.post('/api/register', userInfo)
+          .then((res) => {
+
+        });
+      },
+      reset (formData) {
+
       }
     }
   }
