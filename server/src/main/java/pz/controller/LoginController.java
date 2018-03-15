@@ -7,6 +7,7 @@ import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pz.model.UserModel;
 import pz.service.ResponseService;
 
 import java.io.Serializable;
@@ -40,7 +41,10 @@ public class LoginController {
                 jsonObject.getString("PASSWORD")
         );
         Subject subject = SecurityUtils.getSubject();
+        token.setRememberMe(true);
         subject.login(token);
-        return responseService.success("login success");
+        Session session = subject.getSession();
+        UserModel loginUser = (UserModel) subject.getPrincipal();
+        return responseService.success(loginUser.getMap());
     }
 }

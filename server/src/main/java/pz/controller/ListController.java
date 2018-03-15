@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pz.service.PeiZaiService;
+import pz.service.ResponseService;
 
 
 import java.util.HashMap;
@@ -24,6 +25,8 @@ public class ListController {
         this.peiZaiService = peiZaiService;
     }
 
+    @Autowired
+    private ResponseService responseService;
 
     @RequestMapping(value = "/all", method = RequestMethod.POST)
     public HashMap<String, Object> findAll(
@@ -34,7 +37,7 @@ public class ListController {
         Integer pageSize = json.getInt("PAGE_SIZE");
         HashMap<String, Object> map = null;
         map = peiZaiService.findAll(pageIndex, pageSize);
-        return map;
+        return responseService.success(map);
     }
 
     @RequestMapping(value = "/airlines", method = RequestMethod.POST)
@@ -48,7 +51,7 @@ public class ListController {
         Integer pageSize = json.getInt("PAGE_SIZE");
         HashMap<String, Object> map = null;
         map = peiZaiService.findAllByAirlines(airlines, pageIndex, pageSize);
-        return map;
+        return responseService.success(map);
     }
 
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
@@ -62,7 +65,7 @@ public class ListController {
         Integer pageSize = json.getInt("PAGE_SIZE");
         HashMap<String, Object> map = null;
         map = peiZaiService.findAllByReg(reg, pageIndex, pageSize);
-        return map;
+        return responseService.success(map);
     }
 
     @RequestMapping(value = "/airlines-reg", method = RequestMethod.POST)
@@ -77,7 +80,7 @@ public class ListController {
         Integer pageSize = json.getInt("PAGE_SIZE");
         HashMap<String, Object> map = null;
         map = peiZaiService.findAllByAirlinesAndReg(airlines, reg, pageIndex, pageSize);
-        return map;
+        return responseService.success(map);
     }
 
 

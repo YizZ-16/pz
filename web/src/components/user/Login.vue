@@ -11,7 +11,7 @@
           <el-input type="password" id="password" v-model="formName.password" @blur="inputBlur('password',formName.password)"></el-input>
           <p>{{formName.passwordError}}</p>
         </el-form-item>
-        <el-button type="primary" @click="submitForm('formName')" v-bind:disabled="formName.beDisabled">提交</el-button>
+        <el-button type="primary" @click="submitForm(formName)" v-bind:disabled="formName.beDisabled">提交</el-button>
         <el-button @click="resetForm">重置</el-button>
       </el-form>
     </div>
@@ -66,20 +66,21 @@
         this.formName.passwordError = '';
       },
       submitForm:function(formName){
-//        //与父组件通信传值
-//        //this.$emit('showState', [this.beShow,this.formName.user])
-//        //提交user password
-//        var user = this.formName.user,
-//          password = this.formName.password;
-//        console.log(user,password)
-//        Axios.get('../../src/php/login.php?user='+user+'&password='+password)
-//          .then(function(res){
-//            console.log(res)
-//
-//          })
-//          .catch(function(){
-//
-//          })
+        let params = {};
+        params['ACCOUNT'] = formName.user;
+        params['PASSWORD'] = formName.password;
+        this.$axios.post('/api/login',params)
+          .then((res) => {
+            if (res.data.CODE === 0) {
+              this.$store.commit('set', res.data.DATA)
+              this.$router.push('/main')
+            }else{
+              alert("login failed")
+            }
+          }, (err) =>{
+          console.log(err);
+            alert("login failed")
+          })
       },
       inputBlur:function(errorItem,inputContent){
         if (errorItem === 'user') {
@@ -96,7 +97,7 @@
           }
         }
         //对于按钮的状态进行修改
-        if (this.formName.user != '' && this.formName.password != '') {
+        if (this.formName.user !== '' && this.formName.password !== '') {
           this.formName.beDisabled = false;
         }else{
           this.formName.beDisabled = true;

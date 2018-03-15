@@ -7,7 +7,7 @@
           <el-menu  :default-active="$route.path"
                     router>
             <el-menu-item index="/statistics">统计</el-menu-item>
-            <el-menu-item index="/maintain">维护</el-menu-item>
+            <el-menu-item index="/maintain" v-if = "isAdministrator">维护</el-menu-item>
             <el-menu-item index="/look">查看</el-menu-item>
           </el-menu>
         </el-aside>
@@ -30,7 +30,19 @@
       ElFooter,
       ElHeader,
       ElContainer},
-    name: 'App'
+    name: 'App',
+    mounted () {
+      const type = this.$store.state.user.TYPE;
+      if (type === 'administrator') {
+        this.isAdministrator = true
+
+      }
+    },
+    data () {
+      return {
+        isAdministrator: false
+      }
+    }
   }
 </script>
 

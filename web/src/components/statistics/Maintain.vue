@@ -205,34 +205,35 @@
         }
       },
       searchByAirlines(params){
-        this.$http.post(BaseUrl.url+'/list/airlines',params)
-          .then((data)=>{
+        this.$axios.post('/api/list/airlines',params)
+          .then((res)=>{
             //console.log(JSON.stringify(data));
-            this.tableData = data.body.DATA_LIST;
-            this.totalElements = data.body.TOTAL_ELEMENTS;
+            this.tableData = res.data.DATA.DATA_LIST;
+            this.totalElements = res.data.DATA.TOTAL_ELEMENTS;
+            this.checkDownloadColumn();
           });
       },
       searchByAirlinesAndReg(params){
-        this.$http.post(BaseUrl.url+'/list/airlines-reg',params)
-          .then((data)=>{
-            this.tableData = data.body.DATA_LIST;
-            this.totalElements = data.body.TOTAL_ELEMENTS;
+        this.$http.post('/api/list/airlines-reg',params)
+          .then((res)=>{
+            this.tableData = res.data.DATA.DATA_LIST;
+            this.totalElements = res.data.DATA.TOTAL_ELEMENTS;
             this.checkDownloadColumn();
           });
       },
       searchByReg(params){
-        this.$http.post(BaseUrl.url+'/list/reg',params)
-          .then((data)=>{
-            this.tableData = data.body.DATA_LIST;
-            this.totalElements = data.body.TOTAL_ELEMENTS;
+        this.$http.post('/api/list/reg',params)
+          .then((res)=>{
+            this.tableData = res.data.DATA.DATA_LIST;
+            this.totalElements = res.data.DATA.TOTAL_ELEMENTS;
             this.checkDownloadColumn();
           });
       },
       searchAll(params){
-        this.$axios.post(BaseUrl.url+'/list/all',params)
-          .then((data)=>{
-            this.tableData = data.body.DATA_LIST;
-            this.totalElements = data.body.TOTAL_ELEMENTS;
+        this.$axios.post('/api/list/all',params)
+          .then((res)=>{
+            this.tableData = res.data.DATA.DATA_LIST;
+            this.totalElements = res.data.DATA.TOTAL_ELEMENTS;
             this.checkDownloadColumn();
           });
       },
