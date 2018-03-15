@@ -65,9 +65,9 @@
         this.addColumn[0][field] = newValue;
       },
       addSubmit: function () {
-        this.$http.post(BaseUrl.url+'/pz/add', this.addColumn[0])
-          .then((data)=>{
-            if (data.body) {
+        this.$axios.post('/api/pz/add', this.addColumn[0])
+          .then((res)=>{
+            if (res.data.CODE === 0) {
               let params = {};
               params['modal'] = 'add';
               params['data'] = this.addColumn[0];

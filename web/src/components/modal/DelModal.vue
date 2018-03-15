@@ -64,9 +64,9 @@
       },
 
       deleteSubmit: function () {
-        this.$http.post(BaseUrl.url+'/pz/delete', {'PLANE_ID':this.deleteColumn[0]['PLANE_ID']})
-          .then((data)=>{
-            if (data.body) {
+        this.$axios.post('/api/pz/delete', {'PLANE_ID':this.deleteColumn[0]['PLANE_ID']})
+          .then((res)=>{
+            if (res.data.CODE === 0) {
               let params = {};
               params['modal'] = 'delete';
               params['data'] = this.deleteColumn[0];

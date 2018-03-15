@@ -67,9 +67,9 @@
         this.editColumn[0][field] = newValue;
       },
       editSubmit: function () {
-        this.$http.post(BaseUrl.url+'/pz/edit', this.editColumn[0])
-          .then((data)=>{
-              if (data.body) {
+        this.$axios.post('/api/pz/edit', this.editColumn[0])
+          .then((res)=>{
+              if (res.data.CODE === 0) {
                 let params = {};
                 params['modal'] = 'edit';
                 params['data'] = this.editColumn[0];

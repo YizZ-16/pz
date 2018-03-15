@@ -4,10 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pz.config.ResponseCodeEnum;
 import pz.model.PeiZaiModel;
 import pz.service.PeiZaiService;
+import pz.service.ResponseService;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/pz")
@@ -21,9 +25,11 @@ public class PeiZaiController {
         this.peiZaiService = peiZaiService;
     }
 
+    @Autowired
+    private ResponseService responseService;
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public boolean editOne(
+    public HashMap<String, Object> editOne(
             @RequestBody String jsonString
     ) {
         try {
@@ -53,15 +59,17 @@ public class PeiZaiController {
             log.error(mDate.toString());
             //mDate.setTime(modDateLon);
             model.setModDate(mDate);
-            return peiZaiService.editOne(model);
+            boolean flag = peiZaiService.editOne(model);
+            return responseService.success(flag);
         }catch (Exception e){
-            return false;
+            return responseService.fail(
+                    ResponseCodeEnum.EDIT_ERROR, "edit error");
         }
     }
 
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public boolean addOne(
+    public HashMap<String, Object> addOne(
             @RequestBody String jsonString
     ) {
         try {
@@ -84,20 +92,24 @@ public class PeiZaiController {
             java.util.Date date = new java.util.Date();
             model.setInsertDate(date);
             model.setModDate(date);
-            return peiZaiService.addOne(model);
+             boolean flag = peiZaiService.addOne(model);
+             return responseService.success(flag);
         }catch (Exception e){
-            return false;
+            return responseService.fail(
+                    ResponseCodeEnum.ADD_ERROR, "add error"
+            );
         }
     }
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public boolean deleteOne(
+    public HashMap<String, Object> deleteOne(
             @RequestBody String jsonString
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
         Integer id = jsonObject.getInt("PLANE_ID");
-        return peiZaiService.deleteOne(id);
+        boolean flag = peiZaiService.deleteOne(id);
+        return responseService.success(flag);
     }
 
 
