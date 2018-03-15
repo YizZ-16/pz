@@ -47,7 +47,7 @@
       return {
         options: {
           // https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js
-          target: BaseUrl.url+'/file/upload',
+          target: '/api/file/upload',
           testChunks: false,
           singleFile:true
         },

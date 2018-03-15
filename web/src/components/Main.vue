@@ -2,6 +2,9 @@
   <div id = "main">
     <el-container>
       <el-header class="head">
+        <marquee  behavior="scroll">
+          {{message}}
+        </marquee>
         <el-dropdown>
           <span class="el-dropdown-link">
             {{user.name}}
@@ -46,7 +49,9 @@
       ElContainer},
     name: 'App',
     mounted () {
-      console.log(this.$store.state.user);
+      if (JSON.stringify(this.$store.state.user)==='{}'){
+        this.$router.push('/login');
+      }
       const type = this.$store.state.user.TYPE;
       if (type === 'administrator') {
         this.isAdministrator = true
@@ -58,6 +63,7 @@
      },
     data () {
       return {
+        message:'hello world',
         isAdministrator: false,
         user: {
           name:'default',
@@ -103,6 +109,12 @@
   .el-dropdown {
     position: absolute;
     right: 10%;
+  }
+
+  marquee {
+    width: 850px;
+    position: absolute;
+    left:10%;
   }
 </style>
 
