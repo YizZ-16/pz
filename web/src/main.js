@@ -15,6 +15,7 @@ import 'vue-easytable/libs/themes-base/index.css'
 import {VTable,VPagination} from 'vue-easytable'
 
 import Vuex from 'vuex'
+import echarts from 'echarts'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
@@ -28,6 +29,7 @@ Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 /* eslint-disable no-new */
 Vue.prototype.$axios = axios
+Vue.prototype.$echarts = echarts
 const store = new Vuex.Store({
   state: {
     user: {

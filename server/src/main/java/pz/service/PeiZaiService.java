@@ -98,4 +98,14 @@ public class PeiZaiService {
         map.put("DATA_LIST", lm);
         return map;
     }
+
+    public List<HashMap<String, String>> findAll() {
+        List<HashMap<String, String>> lm = new ArrayList<>();
+        List<PeiZaiModel> list = peiZaiDao.findAll();
+        for (PeiZaiModel p : list) {
+            lm.add(p.getMap());
+        }
+        return lm;
+    }
+
 }

@@ -28,10 +28,10 @@ public class PeiZaiModel implements Serializable {
 
 
     @Column(name = "PLANE_REG")
-    @Setter @Getter private String reg;
+    @Setter @Getter private String reg; //机号
 
     @Column(name = "PLANE_TYPE")
-    @Setter @Getter private String type;
+    @Setter @Getter private String type; //机型
 
     @Column(name = "PLANE_BUJU")
     @Setter @Getter private String buju;

@@ -6,6 +6,7 @@ import Login from '@/components/user/Login'
 import Maintain from '@/components/statistics/Maintain'
 import Main from '@/components/Main'
 import Register from '@/components/user/Register'
+import Statis from '@/components/statistics/Statis'
 
 Vue.use(Router)
 
@@ -35,9 +36,15 @@ export default new Router({
           path: '/maintain',
           name: 'Maintain',
           component: Maintain
+        },
+        {
+          path: '/statis',
+          name:'Statis',
+          component: Statis
         }
       ]
     },
+
 
 
   ]

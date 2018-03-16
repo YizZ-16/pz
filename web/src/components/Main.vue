@@ -23,7 +23,7 @@
         <el-aside width="100px">
           <el-menu  :default-active="$route.path"
                     router>
-            <el-menu-item index="/statistics">统计</el-menu-item>
+            <el-menu-item index="/statis">统计</el-menu-item>
             <el-menu-item index="/maintain" v-if = "isAdministrator">维护</el-menu-item>
             <el-menu-item index="/look">查看</el-menu-item>
           </el-menu>
