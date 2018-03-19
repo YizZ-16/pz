@@ -58,6 +58,21 @@
     /*props:[
             'fromParent'
     ],*/
+    watch: {
+      'formName.user': function () {
+        this.formName.beDisabled = true;
+        if ( this.formName.user !== '' && this.formName.password !== '') {
+          this.formName.beDisabled = false;
+        }
+      },
+      'formName.password': function () {
+        this.formName.beDisabled = true;
+        if ( this.formName.user !== '' && this.formName.password !== '') {
+          this.formName.beDisabled = false;
+        }
+      }
+
+    },
     methods: {
       resetForm:function(){
         this.formName.user = '';
@@ -96,12 +111,7 @@
             this.formName.passwordError = '';
           }
         }
-        //对于按钮的状态进行修改
-        if (this.formName.user !== '' && this.formName.password !== '') {
-          this.formName.beDisabled = false;
-        }else{
-          this.formName.beDisabled = true;
-        }
+
       }
     }
   }
