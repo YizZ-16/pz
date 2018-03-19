@@ -14,4 +14,6 @@ public interface PeiZaiDao
     Page<PeiZaiModel> findAllByReg(String reg, Pageable page);
 
     Page<PeiZaiModel> findAllByAirlinesAndReg(String airlines, String reg, Pageable pageable);
+
+    //Iterable<PeiZaiModel> findAllBy
 }

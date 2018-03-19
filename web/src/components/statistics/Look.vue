@@ -1,11 +1,11 @@
 <template>
-  <div id = 'maintain'>
+  <div id = 'look'>
     <el-container>
       <el-header style="height: 40px">
         <el-row>
           <el-col :span="6" style="text-align: left">
-              <a>航空公司:</a>
-              <input v-model="airline"/>
+            <a>航空公司:</a>
+            <input v-model="airline"/>
           </el-col>
           <el-col :span="6">
             <a>机号:</a>
@@ -13,24 +13,7 @@
           </el-col>
           <el-col :span="3"><div><el-button type="button" @click="customSearch">查询</el-button></div></el-col>
           <el-col :span="3"><div><el-button type="button"  @click="download">下载</el-button></div></el-col>
-          <el-col :span="3"><div ><el-button type="button" @click="addRow">增加</el-button></div></el-col>
-          <!--<el-col id="one" :span="240">-->
-            <!--航空公司：-->
-            <!--<el-input id='air-input' v-model="airline" placeholder="请输入内容" clearable/>-->
-          <!--</el-col>-->
-          <!--<el-col id="two">-->
-            <!--机号：-->
-            <!--<el-input id='reg-input' v-model="reg" placeholder="请输入内容" clearable/>-->
-          <!--</el-col>-->
-          <!--<el-col id="four">-->
-            <!--<el-button type="button" class="btn-search" @click="customSearch">查询</el-button>-->
-          <!--</el-col>-->
-          <!--<el-col id="five">-->
-            <!--<el-button type="button" class="btn-download" @click="download">下载</el-button>-->
-          <!--</el-col>-->
-          <!--<el-col id="six">-->
-            <!--<el-button type="button" class="btn-add" @click="addRow">增加</el-button>-->
-          <!--</el-col>-->
+          <!--<el-col :span="3"><div ><el-button type="button" @click="addRow">增加</el-button></div></el-col>-->
         </el-row>
         <el-row>
 
@@ -158,9 +141,7 @@
           {field: 'PLANE_MZFW', title: '最大无油重量', width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_MZDW', title: '最大起飞重量', width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_MTOW', title: '最大落地重量',width: 90, titleAlign: 'center',columnAlign:'center'},
-          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 120, titleAlign: 'center',columnAlign:'center'},
-          {field: '',title:'操作',width: 120, titleAlign: 'center',columnAlign:'center',
-            componentName:'table-operation',isResize:true}
+          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 185, titleAlign: 'center',columnAlign:'center'}
         ],
 
       }
@@ -175,19 +156,6 @@
       this.searchAll(params);
     },
     methods: {
-      customCompFunc(params){
-        if (params.type === 'delete'){ // do delete operation
-          //this.$delete(this.tableData,params.index);
-          this.isDeleteModalVisible = true;
-          this.deleteColumn[0] = this.tableData[params.index];
-        }else if (params.type === 'edit'){ // do edit operation
-          this.isEditModalVisible = true;
-          this.editColumn[0] = params.rowData;
-        }else if (params.type === 'upload'){
-          this.uploadModalRowData = params.rowData;
-          this.isUploadModalVisible = true;
-        }
-      },
       customSearch() {
         let params = {};
         params['PAGE_INDEX']= 0;
@@ -302,10 +270,10 @@
         if (params.modal === 'edit') {
           this.modalClose('edit');
           for (let i = 0;  i < this.tableData.length; i++) {
-             if (this.tableData[i]['PLANE_ID'] === params.data['PLANE_ID']) {
-               this.tableData[i] = params.data;
-             }
-             break;
+            if (this.tableData[i]['PLANE_ID'] === params.data['PLANE_ID']) {
+              this.tableData[i] = params.data;
+            }
+            break;
           }
         }
 
@@ -367,41 +335,6 @@
     }
   }
 
-  // 自定义列组件
-  Vue.component('table-operation',{
-    template:`<span>
-                <i class="el-icon-edit" @click.stop.prevent="updateRow(rowData,index)"></i>&nbsp;
-                <i class="el-icon-delete" @click.stop.prevent="deleteRow(rowData,index)"></i>&nbsp;
-                <i class="el-icon-upload" @click.stop.prevent="uploadFile(rowData,index)"></i>
-              </span>`,
-    props:{
-      rowData:{
-        type:Object
-      },
-      field:{
-        type:String
-      },
-      index:{
-        type:Number
-      }
-    },
-    methods:{
-      updateRow(){
-        // 参数根据业务场景随意构造
-        let params = {type:'edit',index:this.index,rowData:this.rowData};
-        this.$emit('on-custom-comp',params);
-      },
-      deleteRow(){
-        // 参数根据业务场景随意构造
-        let params = {type:'delete',index:this.index};
-        this.$emit('on-custom-comp',params);
-      },
-      uploadFile(){
-        let params = {type:'upload',index:this.index,rowData:this.rowData};
-        this.$emit('on-custom-comp',params);
-      }
-    }
-  })
 </script>
 
 <style>
@@ -441,8 +374,8 @@
     padding-left: 10px;
   }
   /*.el-input {*/
-    /*width:200px;*/
-    /*heigth: 30px;*/
+  /*width:200px;*/
+  /*heigth: 30px;*/
   /*}*/
   input{
     width: 170px;

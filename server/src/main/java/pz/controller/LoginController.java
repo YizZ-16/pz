@@ -7,6 +7,7 @@ import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pz.config.ResponseCodeEnum;
 import pz.model.UserModel;
 import pz.service.ResponseService;
 
@@ -15,13 +16,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/login")
+@RequestMapping(value = "/user")
 @Slf4j
 @CrossOrigin
 public class LoginController {
 
     @Autowired
     private ResponseService responseService;
+
 
     //简单的后台接口，用于测试
     @RequestMapping(value = "/info")
@@ -31,7 +33,7 @@ public class LoginController {
         return map;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public HashMap<String, Object>login(
             @RequestBody String user
     ) {
@@ -46,5 +48,18 @@ public class LoginController {
         Session session = subject.getSession();
         UserModel loginUser = (UserModel) subject.getPrincipal();
         return responseService.success(loginUser.getMap());
+    }
+
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public HashMap<String, Object> logout() {
+        try {
+            //退出
+            SecurityUtils.getSubject().logout();
+        } catch (Exception e) {
+            responseService.fail(ResponseCodeEnum.LOGOUT_ERROR, "logout failed");
+            System.err.println(e.getMessage());
+        }
+        return responseService.success("logout success");
     }
 }

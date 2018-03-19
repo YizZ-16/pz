@@ -39,6 +39,9 @@ const store = new Vuex.Store({
   mutations: {
     set (state,user) {
       state.user = user;
+    },
+    clear (state) {
+      state.user = {}
     }
   }
 

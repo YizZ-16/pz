@@ -69,7 +69,7 @@
         let params = {};
         params['ACCOUNT'] = formName.user;
         params['PASSWORD'] = formName.password;
-        this.$axios.post('/api/login',params)
+        this.$axios.post('/api/user/login',params)
           .then((res) => {
             if (res.data.CODE === 0) {
               this.$store.commit('set', res.data.DATA)

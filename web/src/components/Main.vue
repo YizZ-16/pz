@@ -59,7 +59,8 @@
       this.user.name = this.$store.state.user.NAME;
       this.user.account = this.$store.state.user.ACCOUNT;
       this.user.airport = this.$store.state.user.AIRPORT;
-      this.user.type = this.$store.state.user.TYPE
+      this.user.type = this.$store.state.user.TYPE;
+      this.$router.push('/statis');
      },
     data () {
       return {
@@ -67,7 +68,6 @@
         isAdministrator: false,
         user: {
           name:'default',
-          account:'unknown',
           airport:'unknown',
           type:'default'
         }
@@ -75,7 +75,15 @@
     },
     methods : {
       logout () {
-
+        this.$axios.get('/api/user/logout')
+          .then((res)=>{
+            if (res.data.CODE === 0) {
+              this.$store.commit('clear');
+              this.$router.push('/login');
+            }else {
+              alert("logout failed")
+            }
+          });
       }
     }
   }

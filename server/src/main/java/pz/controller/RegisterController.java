@@ -1,5 +1,7 @@
 package pz.controller;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,10 +38,15 @@ public class RegisterController {
     ) {
         JSONObject user = new JSONObject(userInfo);
         UserModel um = new UserModel();
-        um.setAccount(user.getString("ACCOUNT"));
+        String account = user.getString("ACCOUNT");
+        um.setAccount(account);
+        ByteSource salt = ByteSource.Util.bytes(account);
+        String password = user.getString("PASSWORD");
+        String hashPass = new SimpleHash(
+                "MD5", password, salt,2).toHex();
+        um.setPassword(hashPass);
         um.setName(user.getString("NAME"));
         um.setAirport(user.getString("AIRPORT"));
-        um.setPassword(user.getString("PASSWORD"));
         um.setType(user.getString("TYPE"));
         boolean flag = userService.addOne(um);
         if (flag) {

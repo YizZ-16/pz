@@ -6,26 +6,29 @@
       </el-header>
       <el-main>
         <el-row>
-          起始时间：
-          <el-date-picker
-            v-model="startDate"
-            type="date"
-            placeholder="选择开始日期">
-          </el-date-picker>
-          结束时间：
-          <el-date-picker
-            v-model="endDate"
-            type="date"
-            placeholder="选择结束日期">
-          </el-date-picker>
-          <el-button>
-            确认
-          </el-button>
+          <el-col span="8">
+            <el-date-picker
+              v-model="startDate"
+              type="date"
+              placeholder="选择开始日期">
+            </el-date-picker>
+          </el-col>
+          <el-col span="6">
+            <el-date-picker
+              v-model="endDate"
+              type="date"
+              placeholder="选择结束日期">
+            </el-date-picker>
+          </el-col>
+          <el-col span="6">
+            <el-button>
+              确认
+            </el-button>
+          </el-col>
         </el-row>
-        <el-row>
+        <el-row style="margin-top:15px ">
           <a>配载各航空公司数据统计</a>
           <div id="chartOne" :style="{width: '600px', height: '400px'}"></div>
-          <!--<div id="chartTwo"></div>-->
         </el-row>
         <el-row>
           <a style="text-align: left">数据汇总</a>
@@ -63,9 +66,11 @@
   import ElMain from "../../../node_modules/element-ui/packages/main/src/main.vue";
   import ElRow from "element-ui/packages/row/src/row";
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
+  import ElCol from "element-ui/packages/col/src/col";
 
   export default {
     components: {
+      ElCol,
       ElButton,
       ElRow,
       ElMain,
@@ -84,6 +89,9 @@
       }
     },
     mounted () {
+      if (JSON.stringify(this.$store.state.user)==='{}'){
+        this.$router.push('/login');
+      }
       this.drawBar();
     },
     methods : {
@@ -167,6 +175,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: right;
+  }
+
+  .el-row {
+    text-align: left;
   }
 
 </style>
