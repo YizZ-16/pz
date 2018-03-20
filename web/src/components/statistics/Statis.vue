@@ -10,6 +10,7 @@
             <el-date-picker
               v-model="startDate"
               type="date"
+              value-format="timestamp"
               placeholder="选择开始日期">
             </el-date-picker>
           </el-col>
@@ -17,11 +18,12 @@
             <el-date-picker
               v-model="endDate"
               type="date"
+              value-format="timestamp"
               placeholder="选择结束日期">
             </el-date-picker>
           </el-col>
           <el-col :span="6">
-            <el-button>
+            <el-button @click="submit">
               确认
             </el-button>
           </el-col>
@@ -202,7 +204,16 @@
       initTable () {
         this.$axios.get('/api/statis/all')
           .then((res) => {
-          this.tableData = res.data.DATA;
+            this.tableData = res.data.DATA;
+          })
+      },
+      submit() {
+        let p = {};
+        p['START_DATE'] = this.startDate;
+        p['END_DATE'] = this.endDate;
+        this.$axios.post('/api/statis/mod-date', p)
+          .then((res) => {
+            this.tableData = res.data.DATA;
           })
       }
     }

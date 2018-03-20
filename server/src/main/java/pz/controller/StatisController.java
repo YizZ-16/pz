@@ -1,6 +1,8 @@
 package pz.controller;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +10,7 @@ import pz.config.ResponseCodeEnum;
 import pz.service.PeiZaiService;
 import pz.service.ResponseService;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -64,6 +67,29 @@ public class StatisController {
         }
 
         return  responseService.success(lh);
+    }
+
+    @RequestMapping(value = "/mod-date", method = RequestMethod.POST)
+    public HashMap<String, Object> statisAllByModDate(
+            @RequestBody String date
+    ) {
+        try {
+            JSONObject dateJson = new JSONObject(date);
+//            String s = dateJson.getString("START_DATE");
+//            String e = dateJson.getString("END_DATE");
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//            Date startDate = sdf.parse(s);
+//            Date endDate = sdf.parse(e);
+            Long s = dateJson.getLong("START_DATE");
+            Long e = dateJson.getLong("END_DATE");
+            List<HashMap<String, String>> lm =
+                    peiZaiService.findAllByModDate(new Date(s), new Date(e));
+            ArrayList<HashMap<String, Object>> lh = parseStatis(lm);
+            return responseService.success(lh);
+        }catch (Exception e){
+            e.printStackTrace();
+            return responseService.fail(ResponseCodeEnum.UNKNOWN_ERROR, "");
+        }
     }
 
     private static Integer checkAirlines(

@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 import pz.dao.PeiZaiDao;
 import pz.model.PeiZaiModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -102,6 +99,15 @@ public class PeiZaiService {
     public List<HashMap<String, String>> findAll() {
         List<HashMap<String, String>> lm = new ArrayList<>();
         List<PeiZaiModel> list = peiZaiDao.findAll();
+        for (PeiZaiModel p : list) {
+            lm.add(p.getMap());
+        }
+        return lm;
+    }
+
+    public List<HashMap<String, String>> findAllByModDate(Date start, Date end) {
+        List<HashMap<String, String>> lm = new ArrayList<>();
+        List<PeiZaiModel> list = peiZaiDao.findAllByModDateBetween(start, end);
         for (PeiZaiModel p : list) {
             lm.add(p.getMap());
         }

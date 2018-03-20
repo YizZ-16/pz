@@ -5,6 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pz.model.PeiZaiModel;
 
+import java.util.Date;
+import java.util.List;
+
 
 public interface PeiZaiDao
         extends JpaRepository<PeiZaiModel, Integer>{
@@ -15,5 +18,5 @@ public interface PeiZaiDao
 
     Page<PeiZaiModel> findAllByAirlinesAndReg(String airlines, String reg, Pageable pageable);
 
-    //Iterable<PeiZaiModel> findAllBy
+    List<PeiZaiModel> findAllByModDateBetween(Date start, Date end);
 }
