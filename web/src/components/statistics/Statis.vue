@@ -6,50 +6,79 @@
       </el-header>
       <el-main>
         <el-row>
-          <el-col span="8">
+          <el-col :span="8">
             <el-date-picker
               v-model="startDate"
               type="date"
               placeholder="选择开始日期">
             </el-date-picker>
           </el-col>
-          <el-col span="6">
+          <el-col :span="6">
             <el-date-picker
               v-model="endDate"
               type="date"
               placeholder="选择结束日期">
             </el-date-picker>
           </el-col>
-          <el-col span="6">
+          <el-col :span="6">
             <el-button>
               确认
             </el-button>
           </el-col>
         </el-row>
-        <el-row style="margin-top:15px ">
-          <a>配载各航空公司数据统计</a>
-          <div id="chartOne" :style="{width: '600px', height: '400px'}"></div>
-        </el-row>
         <el-row>
-          <a style="text-align: left">数据汇总</a>
           <el-table
             :data="tableData"
-          >
+            show-summary
+            :summary-method="getSummaries"
+            align="center">
             <el-table-column
-              prop="records"
-              label="记录"
-              width="150px">
+              width="60px"
+            >
             </el-table-column>
             <el-table-column
-              prop="flyNum"
-              label="机号"
-              width="150px">
+              label="航空公司"
+              prop="PLANE_AIRLINES"
+              width="250px"
+            >
+            </el-table-column>
+            <el-table-column type="expand" >
+              <template slot-scope="props">
+                <el-table :data="props.row.REG" align="center">
+                  <el-table-column align="right" width="150px"
+                    label="机号"
+                    prop="PLANE_REG">
+                  </el-table-column>
+                  <el-table-column align="left" width="150px"
+                    label="机型"
+                    prop="PLANE_TYPE"
+                  >
+                  </el-table-column>
+                </el-table>
+              </template>
             </el-table-column>
             <el-table-column
-              prop="flySize"
-              label="机型"
-              width="150px"
-
+              label="机号数量"
+              prop="PLANE_REG_NUM"
+              width="250px"
+            >
+            </el-table-column>
+            <el-table-column
+              label="机型数量"
+              prop="PLANE_TYPE_NUM"
+              width="250px"
+            >
+              <template scope="scope">
+                <div @click="checkType(scope.row)" >
+                  <el-button style="border: hidden">
+                    {{scope.row.PLANE_TYPE_NUM}}
+                  </el-button>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="数据记录"
+              prop="PLANE_RECORDS"
             >
             </el-table-column>
           </el-table>
@@ -67,9 +96,13 @@
   import ElRow from "element-ui/packages/row/src/row";
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
   import ElCol from "element-ui/packages/col/src/col";
+  import ElTable from "../../../node_modules/element-ui/packages/table/src/table.vue";
+  import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item.vue";
 
   export default {
     components: {
+      ElFormItem,
+      ElTable,
       ElCol,
       ElButton,
       ElRow,
@@ -81,104 +114,100 @@
       return {
         startDate:'',
         endDate: '',
-        tableData:[{
-          records:18,
-          flyNum:23,
-          flySize:34
-        }]
+        tableData:[
+          {
+            PLANE_AIRLINES:'MU',
+            PLANE_REG_NUM:'13423',
+            PLANE_TYPE_NUM:'234',
+            REG:[
+              {
+                PLANE_REG: '13423',
+                PLANE_TYPE: 'rweqr234',
+              },
+              {
+                PLANE_REG: '13423',
+                PLANE_TYPE: 'rweqr234',
+              },
+              {
+                PLANE_REG: '13423',
+                PLANE_TYPE: 'rweqr234',
+              },
+            ]
+          },
+          {
+            PLANE_AIRLINES:'MU',
+            PLANE_REG_NUM:'13423',
+            PLANE_TYPE_NUM:'234',
+            REG:[
+              {
+                PLANE_REG: '13423',
+                PLANE_TYPE: 'rweqr234',
+              },
+              {
+                PLANE_REG: '13423',
+                PLANE_TYPE: 'rweqr234',
+              },
+              {
+                PLANE_REG: '13423',
+                PLANE_TYPE: 'rweqr234',
+              },
+            ]
+          }
+        ]
       }
     },
     mounted () {
       if (JSON.stringify(this.$store.state.user)==='{}'){
         this.$router.push('/login');
       }
-      this.drawBar();
+      this.initTable();
     },
     methods : {
-      drawBar () {
-        let myChart = this.$echarts.init(document.getElementById('chartOne'))
-        let labelOption = {
+      checkType(value){
+        alert(JSON.stringify(value))
+      },
+      getSummaries(params) {
+        const {columns, data} = params;
+        const sums = [];
+        columns.forEach((column, index) => {
+          if (0 === index) {
+            sums[index] = '合计';
+            return
+          }
+          if (1 === index) {
+            sums[index] = data.length;
+            return
+          }
+          if (2 === index) {
+            sums[index] = null;
+            return
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr)=>{
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev+curr;
+              }else {
+                return prev;
+              }
+            },0);
+          }else{
+            sums[index] = 'N/A';
+          }
+        });
 
-        }
-        // 绘制图表
-        myChart.setOption({
-          color: ['#003366', '#006699', '#4cabce'],
-         // title: {text: '各航空公司配载数据统计'},
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'shadow'
-            }
-          },
-          legend: {
-            data: ['记录', '机号', '机型']
-          },
-          toolbox: {
-            show: true,
-            orient: 'vertical',
-            left: 'right',
-            top: 'center',
-            feature: {
-              mark: {show: true},
-              dataView: {show: true, readOnly: false},
-              magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-              restore: {show: true},
-              saveAsImage: {show: true}
-            }
-          },
-          calculable: true,
-          xAxis: {
-            type: 'category',
-            axisTick: {show: false},
-            data: ["KK", "MU", "KU", "GZ", "YL", "MY"]
-          },
-          yAxis: {
-//            type: {
-//              type:'value'
-//            }
-          },
-          series: [
-            {
-              name: '记录',
-              type: 'bar',
-              barGap: 0,
-             // label: labelOption,
-              data: [320, 332, 301, 334, 390, 332]
-            },
-            {
-              name: '机号',
-              type: 'bar',
-              //label: labelOption,
-              data: [220, 182, 191, 234, 290,12]
-            },
-            {
-              name: '机型',
-              type: 'bar',
-              //label: labelOption,
-              data: [150, 232, 201, 154, 190, 212]
-            },
-//            {
-//              name: 'Wetland',
-//              type: 'bar',
-//              //label: labelOption,
-//              data: [98, 77, 101, 99, 40]
-//            }
-          ]
-        })
+        return sums;
+      },
+      initTable () {
+        this.$axios.get('/api/statis/all')
+          .then((res) => {
+          this.tableData = res.data.DATA;
+          })
       }
     }
   }
 </script>
 <style>
-  .el-table .cell, .el-table th div {
-    padding-right: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: right;
-  }
-
-  .el-row {
-    text-align: left;
-  }
 
 </style>

@@ -6,6 +6,7 @@ public enum ResponseCodeEnum {
     EDIT_ERROR(3001),
     ADD_ERROR(3002),
     DELETE_ERROR(3003),
+    UNKNOWN_ERROR(1000),
     LOGOUT_ERROR(1001);
     public int  CODE;
 
