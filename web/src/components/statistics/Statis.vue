@@ -1,7 +1,7 @@
 <template>
   <div id = 'statis'>
     <el-container>
-      <el-header>
+      <el-header style="height: 20px">
         配载基础数据统计
       </el-header>
       <el-main>
@@ -23,15 +23,16 @@
             </el-date-picker>
           </el-col>
           <el-col :span="6">
-            <el-button @click="submit">
+            <el-button @click="submit" style="height: 40px">
               确认
             </el-button>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="table-body">
           <el-table
             :data="tableData"
             show-summary
+            border
             :summary-method="getSummaries"
             align="center">
             <el-table-column
@@ -44,7 +45,7 @@
               width="250px"
             >
             </el-table-column>
-            <el-table-column type="expand" >
+            <el-table-column type="expand">
               <template slot-scope="props">
                 <el-table :data="props.row.REG" align="center">
                   <el-table-column align="right" width="150px"
@@ -70,11 +71,9 @@
               prop="PLANE_TYPE_NUM"
               width="250px"
             >
-              <template scope="scope">
-                <div @click="checkType(scope.row)" >
-                  <el-button style="border: hidden">
+              <template slot-scope="scope">
+                <div @click="checkType(scope.row)"  style="cursor: pointer;">
                     {{scope.row.PLANE_TYPE_NUM}}
-                  </el-button>
                 </div>
               </template>
             </el-table-column>
@@ -87,6 +86,12 @@
         </el-row>
       </el-main>
     </el-container>
+    <air-type-modal
+      v-if="isAirTypeModalVisible"
+      :airlines="airlines"
+      @close="close"
+    >
+    </air-type-modal>
   </div>
 </template>
 
@@ -100,6 +105,7 @@
   import ElCol from "element-ui/packages/col/src/col";
   import ElTable from "../../../node_modules/element-ui/packages/table/src/table.vue";
   import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item.vue";
+  import AirTypeModal from "../modal/AirTypeModal.vue"
 
   export default {
     components: {
@@ -110,10 +116,13 @@
       ElRow,
       ElMain,
       ElHeader,
-      ElContainer},
+      ElContainer,
+      AirTypeModal},
     name:'statis',
     data () {
       return {
+        isAirTypeModalVisible:false,
+        airlines:'',
         startDate:'',
         endDate: '',
         tableData:[
@@ -144,6 +153,7 @@
               {
                 PLANE_REG: '13423',
                 PLANE_TYPE: 'rweqr234',
+
               },
               {
                 PLANE_REG: '13423',
@@ -166,7 +176,8 @@
     },
     methods : {
       checkType(value){
-        alert(JSON.stringify(value))
+        this.airlines = value.PLANE_AIRLINES;
+        this.isAirTypeModalVisible= true;
       },
       getSummaries(params) {
         const {columns, data} = params;
@@ -215,10 +226,17 @@
           .then((res) => {
             this.tableData = res.data.DATA;
           })
+      },
+      close () {
+        this.isAirTypeModalVisible = false;
       }
     }
   }
 </script>
 <style>
-
+  .el-table--border td{
+   }
+  .table-body {
+    margin-top: 20px;
+  }
 </style>

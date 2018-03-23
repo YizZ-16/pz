@@ -415,6 +415,7 @@
     right: 13%;
     padding-right: 10px;
     padding-left: 10px;
+    height: 36px;
   }
 
   .btn-download {
@@ -427,6 +428,7 @@
     right: 20%;
     padding-right: 10px;
     padding-left: 10px;
+    height: 36px;
   }
 
   .btn-search{
@@ -439,6 +441,7 @@
     right: 45%;
     padding-right: 10px;
     padding-left: 10px;
+    height: 36px;
   }
   /*.el-input {*/
     /*width:200px;*/

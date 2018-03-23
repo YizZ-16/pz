@@ -153,6 +153,7 @@ public class StatisController {
                 lh.add(temp);
             }
         }
+
         for (int i=0; i<lh.size(); i++) {
             HashMap<String, Object> hm = lh.get(i);
             ArrayList<HashMap<String, String>> al =
@@ -162,5 +163,21 @@ public class StatisController {
         }
         return lh;
     }
+
+
+    /*
+    **
+    */
+    @RequestMapping(value = "/airlines", method = RequestMethod.POST)
+    public HashMap<String, Object> statisAirlines (
+            @RequestBody String airlines
+    ){
+        JSONObject jsonObject = new JSONObject(airlines);
+        String air = jsonObject.getString("PLANE_AIRLINES");
+        ArrayList<HashMap<String, Object>> list = peiZaiService.findAllListByAirlines(air);
+        return responseService.success(list);
+    }
+
+
 }
 

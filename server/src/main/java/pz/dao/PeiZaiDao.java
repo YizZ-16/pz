@@ -19,4 +19,6 @@ public interface PeiZaiDao
     Page<PeiZaiModel> findAllByAirlinesAndReg(String airlines, String reg, Pageable pageable);
 
     List<PeiZaiModel> findAllByModDateBetween(Date start, Date end);
+
+    List<PeiZaiModel> findAllByAirlines(String airlines);
 }
