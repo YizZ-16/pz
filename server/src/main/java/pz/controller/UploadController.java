@@ -68,21 +68,31 @@ public class UploadController {
         if (fileName.isEmpty()) {
             return;
         }
-        res.setHeader("content-type", "application/octet-stream");
-        res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-        byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os = null;
         try {
-            os = res.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File("G:\\test\\"
-                    + fileName)));
-            int i = bis.read(buff);
-            while (i != -1) {
-                os.write(buff, 0, buff.length);
-                os.flush();
-                i = bis.read(buff);
+            File file = new File("G:\\test\\"
+                    + fileName);
+            if (file.exists()) {
+                res.setHeader("content-type", "application/octet-stream");
+                res.setContentType("application/octet-stream");
+                res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+                byte[] buff = new byte[1024];
+                os = res.getOutputStream();
+                bis = new BufferedInputStream(new FileInputStream(file));
+                int i = bis.read(buff);
+                while (i != -1) {
+                    os.write(buff, 0, buff.length);
+                    os.flush();
+                    i = bis.read(buff);
+                }
+            }else{
+                res.setCharacterEncoding("UTF-8");
+                res.setHeader("Content-type","text/html;charset=UTF-8");
+                PrintWriter writer = res.getWriter();
+                writer.write("平横图文件不存在");
+               // writer.flush();
+                writer.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
