@@ -149,7 +149,8 @@
         columns: [
           {width: 60, titleAlign: 'center',columnAlign:'center',type: 'selection'},
           {field: 'PLANE_AIRLINES', title: '所属航空公司', width:50, titleAlign: 'center',columnAlign:'center'},
-          {field: 'PLANE_REG', title:'机号', width: 80, titleAlign: 'center',columnAlign:'center'},
+          {field: 'PLANE_REG', title:'机号', width: 80, titleAlign: 'center',columnAlign:'center',
+          style:'cursor:pointer'},
           {field: 'PLANE_TYPE', title: '机型', width: 120, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_BUJU', title: '飞机布局', width: 120, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_CND', title: 'CND表号', width: 80, titleAlign: 'center',columnAlign:'center'},

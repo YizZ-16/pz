@@ -35,7 +35,6 @@
             row-click-color="#edf7ff"
 
             even-bg-color="#f2f2f2"
-            @on-custom-comp="customCompFunc"
             :columns="columns"
             :table-data="tableData">
           </v-table>
@@ -141,7 +140,9 @@
           {field: 'PLANE_MZFW', title: '最大无油重量', width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_MZDW', title: '最大起飞重量', width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_MTOW', title: '最大落地重量',width: 90, titleAlign: 'center',columnAlign:'center'},
-          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 185, titleAlign: 'center',columnAlign:'center'}
+          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 120, titleAlign: 'center',columnAlign:'center'},
+          {field: '',title:'查看',width: 120, titleAlign: 'center',columnAlign:'center',
+            componentName:'file-look',isResize:true}
         ],
 
       }
@@ -334,6 +335,36 @@
 
     }
   }
+
+  Vue.component('file-look',{
+    template:`<span>
+                <i class="el-icon-tickets" @click.stop.prevent="tickets(rowData,index)"></i>&nbsp;
+                <i class="el-icon-search" @click.stop.prevent="search(rowData,index)"></i>
+              </span>`,
+    props:{
+      rowData:{
+        type:Object
+      },
+      field:{
+        type:String
+      },
+      index:{
+        type:Number
+      }
+    },
+    methods:{
+      tickets(){
+        // 参数根据业务场景随意构造
+        let params = this.rowData['PLANE_ID']+ '_'+this.rowData['PLANE_REG']+'.xlsx';
+        window.open('http://localhost:8081/file/download?FILE_NAME='+params);
+      },
+      search(){
+        // 参数根据业务场景随意构造
+        let params = {type:'delete',index:this.index};
+        this.$emit('on-custom-comp',params);
+      }
+    }
+  })
 
 </script>
 

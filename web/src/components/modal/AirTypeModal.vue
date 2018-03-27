@@ -11,7 +11,7 @@
         <div class="modal-body">
           <slot name="body">
             <el-table
-            :data="tableData">
+              :data="tableData">
               <el-table-column
                 width="60px"
               >
@@ -113,7 +113,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,1);
     display: flex;
     justify-content: center;
     align-items: center;

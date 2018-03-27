@@ -47,12 +47,18 @@
             </el-table-column>
             <el-table-column type="expand">
               <template slot-scope="props">
-                <el-table :data="props.row.REG" align="center">
-                  <el-table-column align="right" width="150px"
+                <el-table
+                  :data="props.row.REG"
+                  align="center">
+                  <el-table-column
+                    align="right"
+                    width="150px"
                     label="机号"
                     prop="PLANE_REG">
                   </el-table-column>
-                  <el-table-column align="left" width="150px"
+                  <el-table-column
+                    align="left"
+                    width="150px"
                     label="机型"
                     prop="PLANE_TYPE"
                   >
