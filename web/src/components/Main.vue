@@ -60,6 +60,10 @@
       this.user.account = this.$store.state.user.ACCOUNT;
       this.user.airport = this.$store.state.user.AIRPORT;
       this.user.type = this.$store.state.user.TYPE;
+      this.queryRecentEditRecord();
+      setInterval(() => {
+        this.queryRecentEditRecord();
+      }, 1000*60*5);
       this.$router.push('/statis');
      },
     data () {
@@ -84,6 +88,12 @@
               alert("logout failed")
             }
           });
+      },
+      queryRecentEditRecord(){
+        this.$axios.get('/api/pz/recent')
+          .then((res) =>{
+            this.message = JSON.stringify(res.data.DATA);
+          })
       }
     }
   }

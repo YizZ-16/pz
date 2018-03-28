@@ -23,6 +23,6 @@ public interface PeiZaiDao
 
     List<PeiZaiModel> findAllByAirlines(String airlines);
 
-//    Page<PeiZaiModel> findAllOrderByModDateDesc(Pageable pageable);
+    PeiZaiModel findFirstByOrderByModDateDesc();
 
 }

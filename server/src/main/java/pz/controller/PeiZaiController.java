@@ -1,6 +1,7 @@
 package pz.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -110,6 +111,12 @@ public class PeiZaiController {
         Integer id = jsonObject.getInt("PLANE_ID");
         boolean flag = peiZaiService.deleteOne(id);
         return responseService.success(flag);
+    }
+
+    @RequestMapping(value = "/recent", method = RequestMethod.GET)
+    public HashMap<String, Object> findRecentEditRecord() {
+        HashMap<String, String > map = peiZaiService.findRecentEditRecord();
+        return responseService.success(map);
     }
 
 

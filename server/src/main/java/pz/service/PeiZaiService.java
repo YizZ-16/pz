@@ -123,13 +123,11 @@ public class PeiZaiService {
         return map;
     }
 
-//    // 获取最新的修改记录
-//    public HashMap<String, String> findLastEditRecord() {
-//        Page<PeiZaiModel> p = peiZaiDao.findAllOrderByModDateDesc(new PageRequest(0,1));
-//        List<PeiZaiModel> list = p.getContent();
-//        PeiZaiModel pm = list.get(0);
-//        return pm.getMap();
-//    }
+    // 获取最新修改的数据
+    public HashMap<String, String> findRecentEditRecord() {
+        PeiZaiModel pm = peiZaiDao.findFirstByOrderByModDateDesc();
+        return pm.getMap();
+    }
 
     public List<HashMap<String, String>> findAll() {
         List<HashMap<String, String>> lm = new ArrayList<>();
