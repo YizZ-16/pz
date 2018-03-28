@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pz.dao.PeiZaiDao;
 import pz.model.PeiZaiModel;
 
@@ -21,6 +22,10 @@ public class PeiZaiService {
     public void setPeiZaiDao(PeiZaiDao peiZaiDao) {
         this.peiZaiDao = peiZaiDao;
     }
+
+
+    @Autowired
+    private PeiZaiModService peiZaiModService;
 
 
     public HashMap<String, Object> findAllByAirlines(String airlines, Integer pageIndex, Integer pageSize) {
@@ -38,10 +43,21 @@ public class PeiZaiService {
     }
 
 
+    @Transactional
     public boolean editOne(PeiZaiModel p) {
-       PeiZaiModel editModel = peiZaiDao.saveAndFlush(p);
-       if (editModel != null) return  true;
-       return  false;
+        PeiZaiModel pzm = peiZaiDao.findOne(p.getId());
+        if (pzm != null) {
+            boolean flag = peiZaiModService.save(pzm, "edit");
+            if (flag) {
+                PeiZaiModel editModel = peiZaiDao.saveAndFlush(p);
+                return editModel != null;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+
     }
 
     public boolean addOne(PeiZaiModel p) {
@@ -51,8 +67,18 @@ public class PeiZaiService {
     }
 
     public boolean deleteOne(Integer id) {
-        peiZaiDao.delete(id);
-        return true;
+        PeiZaiModel pzm = peiZaiDao.findOne(id);
+        if (pzm != null) {
+            boolean flag = peiZaiModService.save(pzm, "delete");
+            if (flag) {
+                peiZaiDao.delete(id);
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 
     public HashMap<String, Object> findAll(Integer pageIndex, Integer pageSize) {
@@ -96,6 +122,14 @@ public class PeiZaiService {
         map.put("DATA_LIST", lm);
         return map;
     }
+
+//    // 获取最新的修改记录
+//    public HashMap<String, String> findLastEditRecord() {
+//        Page<PeiZaiModel> p = peiZaiDao.findAllOrderByModDateDesc(new PageRequest(0,1));
+//        List<PeiZaiModel> list = p.getContent();
+//        PeiZaiModel pm = list.get(0);
+//        return pm.getMap();
+//    }
 
     public List<HashMap<String, String>> findAll() {
         List<HashMap<String, String>> lm = new ArrayList<>();

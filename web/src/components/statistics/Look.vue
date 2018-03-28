@@ -34,6 +34,8 @@
             row-hover-color="#eee"
             row-click-color="#edf7ff"
 
+            @edit-record="editRecord"
+
             even-bg-color="#f2f2f2"
             :columns="columns"
             :table-data="tableData">
@@ -43,34 +45,19 @@
                         :total="totalElements" :page-size="pageSize"
                         :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']">
           </v-pagination>
-          <edit-modal v-if="isEditModalVisible"
-                      :editColumn="editColumn"
-                      v-on:close="modalClose"
-                      v-on:success="modalSuccess">
-          </edit-modal>
-          <delete-modal v-if="isDeleteModalVisible"
-                        :deleteColumn="deleteColumn"
-                        v-on:close="modalClose"
-                        v-on:success="modalSuccess">
-          </delete-modal>
-          <add-modal v-if="isAddModalVisible"
-                     v-on:close="modalClose"
-                     v-on:success="modalSuccess">
-          </add-modal>
-
           <download-modal v-if="isDownloadModalVisible"
                           :downloadColumn = "downloadColumn"
-                          v-on:close="modalClose"></download-modal>
-          <upload-modal v-if="isUploadModalVisible"
-                        :uploadRowData="uploadModalRowData"
-                        v-on:close="modalClose">
+                          v-on:close="modalClose">
 
-          </upload-modal>
+          </download-modal>
           <el-alert title="alertMessage"
                     type="error" @close="alertClose"
                     v-if="alertMessage.length>1">
-
           </el-alert>
+          <edit-record-modal v-if="isEditRecordModalVisible"
+                             :planeId = "planeId"
+                             v-on:close="modalClose">
+          </edit-record-modal>
         </el-row>
       </el-main>
     </el-container>
@@ -80,11 +67,8 @@
 
 <script>
   import BaseUrl from '../../../config/url.config'
-  import EditModal from '../modal/EditModal.vue'
-  import DeleteModal from '../modal/DelModal.vue'
-  import AddModal from '../modal/AddModel.vue'
-  import DownloadModal from '../modal/DownLoad.vue'
-  import UploadModal from '../modal/UploadModal.vue'
+  import DownloadModal from '../modal/DownloadModal.vue'
+  import EditRecordModal from '../modal/EditRecordModal.vue'
 
   import Vue from 'vue'
   import VTable from "../../../node_modules/vue-easytable/libs/v-table/src/table.vue";
@@ -103,11 +87,8 @@
       ElHeader,
       ElContainer,
       VTable,
-      EditModal,
-      DeleteModal,
-      AddModal,
       DownloadModal,
-      UploadModal
+      EditRecordModal
     },
     data() {
       return {
@@ -116,17 +97,12 @@
         totalElements:0,
         pageIndex:0,
         pageSize:10,
-        isEditModalVisible:false,
-        isDeleteModalVisible:false,
-        isAddModalVisible:false,
         isDownloadModalVisible: false,
-        isUploadModalVisible: false,
-        editColumn:[],
-        deleteColumn: [],
+        isEditRecordModalVisible: false,
         tableData: [],
         downloadColumn: [],
         tempDownloadColumn: [],
-        uploadModalRowData: [],
+        planeId:'',
         alertMessage:'',
         columns: [
           {width: 60, titleAlign: 'center',columnAlign:'center',type: 'selection'},
@@ -249,51 +225,6 @@
         }
 
       },
-      modalClose(type) {
-        if (type === 'edit') {
-          this.isEditModalVisible = false;
-        }
-        if (type === 'delete') {
-          this.isDeleteModalVisible = false;
-        }
-        if (type === 'add') {
-          this.isAddModalVisible = false;
-        }
-        if (type === 'download') {
-          this.isDownloadModalVisible = false;
-          this.downloadColumn= [];
-        }
-        if (type === 'upload') {
-          this.isUploadModalVisible = false;
-        }
-      },
-      modalSuccess(params) {
-        if (params.modal === 'edit') {
-          this.modalClose('edit');
-          for (let i = 0;  i < this.tableData.length; i++) {
-            if (this.tableData[i]['PLANE_ID'] === params.data['PLANE_ID']) {
-              this.tableData[i] = params.data;
-            }
-            break;
-          }
-        }
-
-        if (params.modal === 'delete') {
-          this.modalClose('delete');
-          let temp = [];
-          for (let i = 0;  i < this.tableData.length; i++) {
-            if (this.tableData[i]['PLANE_ID'] !== params.data['PLANE_ID']) {
-              temp.push(this.tableData[i]);
-            }
-          }
-          this.tableData = temp;
-        }
-      },
-
-      addRow () {
-        this.isAddModalVisible = true;
-      },
-
       selectALL(selection){
         this.tempDownloadColumn = selection;
         console.log('select-aLL',selection);
@@ -333,6 +264,20 @@
         this.isDownloadModalVisible = true;
       }
 
+    },
+    modalClose (type) {
+      if (type === 'download') {
+        this.isDownloadModalVisible = false;
+        this.downloadColumn = [];
+      }
+      if (type === 'editRecord') {
+        this.isEditRecordModalVisible = false;
+        this.editRecordColumn = [];
+      }
+    },
+    editRecord (params) {
+      this.planeId = params['rowData']['PLANE_ID'];
+      this.isEditRecordModalVisible = true;
     }
   }
 
@@ -360,8 +305,8 @@
       },
       search(){
         // 参数根据业务场景随意构造
-        let params = {type:'delete',index:this.index};
-        this.$emit('on-custom-comp',params);
+        let params = {rowData:this.rowData};
+        this.$emit('edit-record',params);
       }
     }
   })

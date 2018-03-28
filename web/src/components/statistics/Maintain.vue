@@ -101,7 +101,7 @@
   import EditModal from '../modal/EditModal.vue'
   import DeleteModal from '../modal/DelModal.vue'
   import AddModal from '../modal/AddModel.vue'
-  import DownloadModal from '../modal/DownLoad.vue'
+  import DownloadModal from '../modal/DownloadModal.vue'
   import UploadModal from '../modal/UploadModal.vue'
 
   import Vue from 'vue'
