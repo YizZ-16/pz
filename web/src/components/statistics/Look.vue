@@ -55,7 +55,7 @@
                     v-if="alertMessage.length>1">
           </el-alert>
           <edit-record-modal v-if="isEditRecordModalVisible"
-                             :planeId = "planeId"
+                             :column = "editColumn"
                              v-on:close="modalClose">
           </edit-record-modal>
         </el-row>
@@ -102,7 +102,7 @@
         tableData: [],
         downloadColumn: [],
         tempDownloadColumn: [],
-        planeId:'',
+        editColumn:'',
         alertMessage:'',
         columns: [
           {width: 60, titleAlign: 'center',columnAlign:'center',type: 'selection'},
@@ -276,7 +276,7 @@
       }
     },
     editRecord (params) {
-      this.planeId = params['rowData']['PLANE_ID'];
+      this.editColumn = params['rowData'];
       this.isEditRecordModalVisible = true;
     }
   }

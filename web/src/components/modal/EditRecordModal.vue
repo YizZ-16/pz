@@ -4,7 +4,7 @@
       <div class="del-modal">
         <div class="modal-header">
           <slot name="header">
-            导出前请确认下载的数据是否正确
+            数据修改历史记录
           </slot>
         </div>
         <div class="modal-body">
@@ -12,7 +12,7 @@
             <v-table
               even-bg-color="#f2f2f2"
               :columns="columnsER"
-              :table-data="editRecordColumn">
+              :table-data="editColumnRecord">
             </v-table>
           </slot>
         </div>
@@ -33,8 +33,8 @@
 
     },
     props:{
-      planeId:{
-        default:''
+      editColumn:{
+        default:[]
       }
     },
     mounted () {
@@ -55,7 +55,7 @@
           {field: 'PLANE_MTOW', title: '最大落地重量',width: 80, titleAlign: 'center',columnAlign:'left'},
           {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 180, titleAlign: 'center',columnAlign:'center'}
         ],
-        editRecordColumn:[]
+        editColumnRecord:[]
 
       }
     },
@@ -64,9 +64,10 @@
         this.$emit('close', 'editRecord');
       },
       initTable () {
-        this.$axios.post('/api/pzm/plane-id',{PLANE_ID: this.planeId})
+        this.$axios.post('/api/pzm/plane-id',{PLANE_ID: this.editColumn.PLANE_ID})
           .then((res)=>{
-            this.editRecordColumn=res.data.DATA;
+            this.editColumnRecord=res.data.DATA;
+            this.editColumnRecord.push(this.editColumn);
           })
       }
     }
