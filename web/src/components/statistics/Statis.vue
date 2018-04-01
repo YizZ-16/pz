@@ -33,6 +33,7 @@
             :data="tableData"
             show-summary
             border
+            style="border-bottom: hidden"
             :summary-method="getSummaries"
             align="center">
             <el-table-column
@@ -49,16 +50,18 @@
               <template slot-scope="props">
                 <el-table
                   :data="props.row.REG"
+                  style="width: 241px; position: relative; left: 30%"
+                  border
                   align="center">
                   <el-table-column
                     align="right"
-                    width="150px"
+                    width="120px"
                     label="机号"
                     prop="PLANE_REG">
                   </el-table-column>
                   <el-table-column
                     align="left"
-                    width="150px"
+                    width="120px"
                     label="机型"
                     prop="PLANE_TYPE"
                   >

@@ -11,29 +11,39 @@
         <div class="modal-body">
           <slot name="body">
             <el-table
+              border
               :data="tableData">
-              <el-table-column
-                width="60px"
-              >
-              </el-table-column>
+              <!--<el-table-column-->
+                <!--width="60px"-->
+              <!--&gt;-->
+              <!--</el-table-column>-->
               <el-table-column
                 label="机型"
                 prop="PLANE_TYPE"
                 width="250px"
+                align="center"
               >
               </el-table-column>
               <el-table-column
                 label="机号数量"
                 prop="PLANE_REG_NUM"
                 width="250px"
+                align="center"
               >
               </el-table-column>
               <el-table-column type="expand" >
                 <template slot-scope="props">
-                  <el-table :data="props.row.REG" align="center">
-                    <el-table-column align="center" width="150px"
-                                     label="机号"
-                                     prop="PLANE_REG">
+                  <el-table
+                    :data="props.row.REG"
+                    border
+                    max-height="400"
+                    style="width: 151px"
+                    align="center">
+                    <el-table-column
+                      align="center"
+                      width="150px"
+                      label="机号"
+                      prop="PLANE_REG">
                     </el-table-column>
                   </el-table>
                 </template>
@@ -113,7 +123,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0,0,0,1);
+    /*background-color: rgba(0,0,0,1);*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -124,6 +134,7 @@
     overflow-x:auto;
     display: flex;
     flex-direction: column;
+    max-height: 600px;
   }
   .modal-header,
   .modal-footer {
