@@ -3,7 +3,19 @@
     <el-container>
       <el-header class="head">
         <marquee  behavior="scroll">
-          {{message}}
+          最近更新数据【
+          所属航空：{{message.PLANE_AIRLINES}},
+          机号：{{message.PLANE_REG}},
+          机型：{{message.PLANE_TYPE}},
+          飞机布局：{{message.PLANE_BUJU}},
+          CND表号：{{message.PLANE_CND}},
+          基本重量：{{message.PLANE_BOW}},
+          基本指数：{{message.PLANE_BOI}},
+          最大无油重量：{{message.PLANE_MZDW}},
+          最大起飞重量：{{message.PLANE_MZFW}},
+          最大落地重量：{{message.PLANE_MTOW}},
+          更新时间：{{message.PLANE_UPDATE_DATE}}
+          】
         </marquee>
         <el-dropdown>
           <span class="el-dropdown-link">
@@ -14,8 +26,8 @@
             <el-dropdown-item>{{user.account}}</el-dropdown-item>
             <el-dropdown-item>{{user.airport}}</el-dropdown-item>
             <el-dropdown-item>{{user.type}}</el-dropdown-item>
-            <!--<el-dropdown-item disabled>双皮奶</el-dropdown-item>-->
-            <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
+            <el-dropdown-item><a @click="registerUser" v-if="isAdministrator">注册用户</a></el-dropdown-item>
+            <el-dropdown-item ><a @click="logout">退出</a></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -23,9 +35,18 @@
         <el-aside width="100px">
           <el-menu  :default-active="$route.path"
                     router>
-            <el-menu-item index="/statis">统计</el-menu-item>
-            <el-menu-item index="/maintain" v-if = "isAdministrator">维护</el-menu-item>
-            <el-menu-item index="/look">查看</el-menu-item>
+            <el-menu-item index="/statis">
+              <i class="el-icon-document"></i>
+              统计
+            </el-menu-item>
+            <el-menu-item index="/maintain" v-if="isAdministrator">
+              <i class="el-icon-setting"></i>
+              维护
+            </el-menu-item>
+            <el-menu-item index="/look">
+              <i class="el-icon-menu"></i>
+              查看
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
@@ -33,11 +54,11 @@
         </el-main>
       </el-container>
       <el-footer style="height: 30px"></el-footer>
-    </el-container>
+  </el-container>
   </div>
-</template>
+  </template>
 
-<script>
+  <script>
   import ElContainer from "../../node_modules/element-ui/packages/container/src/main.vue";
   import ElHeader from "../../node_modules/element-ui/packages/header/src/main.vue";
   import ElFooter from "../../node_modules/element-ui/packages/footer/src/main.vue";
@@ -92,8 +113,11 @@
       queryRecentEditRecord(){
         this.$axios.get('/api/pz/recent')
           .then((res) =>{
-            this.message = JSON.stringify(res.data.DATA);
+            this.message = res.data.DATA;
           })
+      },
+      registerUser () {
+        this.$router.push('/register');
       }
     }
   }
