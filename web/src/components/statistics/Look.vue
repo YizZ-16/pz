@@ -105,7 +105,7 @@
         editColumn:'',
         alertMessage:'',
         columns: [
-          {width: 60, titleAlign: 'center',columnAlign:'center',type: 'selection'},
+          {width: 40, titleAlign: 'center',columnAlign:'center',type: 'selection'},
           {field: 'PLANE_AIRLINES', title: '所属航空公司', width:50, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_REG', title:'机号', width: 80, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_TYPE', title: '机型', width: 120, titleAlign: 'center',columnAlign:'center'},
@@ -117,7 +117,7 @@
           {field: 'PLANE_MZDW', title: '最大起飞重量', width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_MTOW', title: '最大落地重量',width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 120, titleAlign: 'center',columnAlign:'center'},
-          {field: '',title:'查看',width: 120, titleAlign: 'center',columnAlign:'center',
+          {field: '',title:'查看',width: 80, titleAlign: 'center',columnAlign:'center',
             componentName:'file-look',isResize:true}
         ],
 
@@ -300,7 +300,7 @@
     methods:{
       tickets(){
         // 参数根据业务场景随意构造
-        let params = this.rowData['PLANE_ID']+ '_'+this.rowData['PLANE_REG']+'.xlsx';
+        let params = this.rowData['PLANE_ID']+ '_'+this.rowData['PLANE_REG'];
         window.open('http://localhost:8081/file/download?FILE_NAME='+params);
       },
       search(){

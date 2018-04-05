@@ -32,12 +32,13 @@ public class UploadController {
                     ResponseCodeEnum.UNKNOWN_ERROR,"file upload fail, file not empty!");
         }
         // 获取文件名
+        log.info(String.valueOf(file.getSize()));
         String fileName = file.getOriginalFilename();
+        log.info(fileName);
         //System.out.println("上传的文件名为：" + fileName);
         // 获取文件的后缀名
         //String suffixName = fileName.substring(fileName.lastIndexOf("."));
-        String relativePath = request.getSession().getServletContext().getRealPath("/");
-        log.info(relativePath);
+        //String relativePath = request.getSession().getServletContext().getRealPath("/");
         // 文件上传后的路径
         String filePath = "G:\\test\\";
         // 解决中文问题，liunx下中文路径，图片显示问题
@@ -64,19 +65,28 @@ public class UploadController {
             @RequestParam(value = "FILE_NAME") String fileName,
             HttpServletResponse res
     ) {
-        log.info(fileName);
         if (fileName.isEmpty()) {
             return;
         }
         BufferedInputStream bis = null;
         OutputStream os = null;
         try {
-            File file = new File("G:\\test\\"
-                    + fileName);
+            String pathname = "G:\\test\\";
+            File file1 = new File(pathname + fileName + ".pdf");
+            File file2 = new File(pathname + fileName + ".docx");
+            File file3 = new File(pathname + fileName + ".doc");
+            File file = file1;
+            if (file2.exists() && (file.lastModified() < file2.lastModified())) {
+               file = file2;
+            }
+            if (file3.exists() && (file.lastModified() < file3.lastModified())) {
+                file = file3;
+            }
             if (file.exists()) {
                 res.setHeader("content-type", "application/octet-stream");
                 res.setContentType("application/octet-stream");
-                res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+                res.setHeader("Content-Disposition", "attachment;filename="
+                        + file.getName());
                 byte[] buff = new byte[1024];
                 os = res.getOutputStream();
                 bis = new BufferedInputStream(new FileInputStream(file));
@@ -105,7 +115,7 @@ public class UploadController {
                 }
             }
         }
-        System.out.println("success");
+        log.info("file download success");
 
     }
 }

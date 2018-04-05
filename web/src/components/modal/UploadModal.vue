@@ -8,7 +8,9 @@
       </div>
       <div class="modal-body">
         <slot name="body">
-          <uploader :options="options" @file-added="fileAdded">
+          <uploader :options="options"
+                    :file-status-text="statusText"
+                    @file-added="fileAdded">
             <uploader-unsupport></uploader-unsupport>
             <uploader-drop>
               <!--<p>Drop files here to upload or</p>-->
@@ -49,11 +51,20 @@
           // https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js
           target: '/api/file/upload',
           testChunks: false,
-          singleFile:true
+          singleFile:true,
+          withCredentials:true,
+          uploadMethod:'POST'
         },
 //        attrs: {
 //          accept: 'image/*'
 //        }
+        statusText: {
+          success: '成功了',
+          error: '出错了',
+          uploading: '上传中',
+          paused: '暂停中',
+          waiting: '等待中'
+        }
       }
     },
     methods: {
@@ -61,8 +72,11 @@
         this.$emit('close', 'upload');
       },
       fileAdded(file, event) {
-        let arr = file.name.split('.');
-        let type = arr[arr.length-1];
+        let type = file.getExtension();
+        if (type !== 'pdf' && type !== 'doc' && type !== 'docx') {
+          file.cancel();
+          alert('请上传正确的文件类型！')
+        }
         let name = this.uploadRowData['PLANE_ID']
           +'_'+this.uploadRowData['PLANE_REG'];
         file.name = name+'.'+type;
