@@ -10,6 +10,9 @@
         <div class="modal-body">
           <slot name="body">
             <v-table
+              is-vertical-resize
+              row-hover-color="#eee"
+              row-click-color="#edf7ff"
               even-bg-color="#f2f2f2"
               :columns="columnsDownload"
               :table-data="downloadColumn">
