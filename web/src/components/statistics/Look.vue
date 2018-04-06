@@ -22,6 +22,7 @@
       <el-main>
         <el-row>
           <v-table
+            @on-custom-comp="editRecord"
             :select-all="selectALL"
             :select-change="selectChange"
             :select-group-change="selectGroupChange"
@@ -33,9 +34,6 @@
             :min-height="350"
             row-hover-color="#eee"
             row-click-color="#edf7ff"
-
-            @edit-record="editRecord"
-
             even-bg-color="#f2f2f2"
             :columns="columns"
             :table-data="tableData">
@@ -48,14 +46,13 @@
           <download-modal v-if="isDownloadModalVisible"
                           :downloadColumn = "downloadColumn"
                           v-on:close="modalClose">
-
           </download-modal>
           <el-alert title="alertMessage"
                     type="error" @close="alertClose"
                     v-if="alertMessage.length>1">
           </el-alert>
           <edit-record-modal v-if="isEditRecordModalVisible"
-                             :column = "editColumn"
+                             :editColumn = "editColumn"
                              v-on:close="modalClose">
           </edit-record-modal>
         </el-row>
@@ -262,22 +259,21 @@
           this.downloadColumn.push(this.tempDownloadColumn[i]);
         }
         this.isDownloadModalVisible = true;
+      },
+      modalClose (type) {
+        if (type === 'download') {
+          this.isDownloadModalVisible = false;
+          this.downloadColumn = [];
+        }
+        if (type === 'editRecord') {
+          this.isEditRecordModalVisible = false;
+          this.editColumn = [];
+        }
+      },
+      editRecord(params) {
+        this.isEditRecordModalVisible = true;
+        this.editColumn = params['rowData'];
       }
-
-    },
-    modalClose (type) {
-      if (type === 'download') {
-        this.isDownloadModalVisible = false;
-        this.downloadColumn = [];
-      }
-      if (type === 'editRecord') {
-        this.isEditRecordModalVisible = false;
-        this.editRecordColumn = [];
-      }
-    },
-    editRecord (params) {
-      this.editColumn = params['rowData'];
-      this.isEditRecordModalVisible = true;
     }
   }
 
@@ -306,7 +302,7 @@
       search(){
         // 参数根据业务场景随意构造
         let params = {rowData:this.rowData};
-        this.$emit('edit-record',params);
+        this.$emit('on-custom-comp',params);
       }
     }
   })

@@ -15,7 +15,7 @@ import java.util.HashMap;
 @Entity
 @Table(name = "PZ_PLANE_STATIC_MOD")
 @DynamicUpdate
-//@NoArgsConstructor
+@NoArgsConstructor
 public class PeiZaiModModel implements Serializable {
 
     @Transient
@@ -86,6 +86,7 @@ public class PeiZaiModModel implements Serializable {
         this.mzfw = p.getMzfw();
         this.mzdw = p.getMzdw();
         this.mtow = p.getMtow();
+        this.updateDate = p.getUpdateDate();
         this.modDate = p.getModDate();
         this.insertDate = p.getInsertDate();
         java.util.Date date = new java.util.Date();

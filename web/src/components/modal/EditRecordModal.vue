@@ -10,6 +10,7 @@
         <div class="modal-body">
           <slot name="body">
             <v-table
+              is-vertical-resize
               even-bg-color="#f2f2f2"
               :columns="columnsER"
               :table-data="editColumnRecord">
@@ -38,7 +39,7 @@
       }
     },
     mounted () {
-
+      this.initTable();
     },
     data () {
       return {
@@ -66,8 +67,13 @@
       initTable () {
         this.$axios.post('/api/pzm/plane-id',{PLANE_ID: this.editColumn.PLANE_ID})
           .then((res)=>{
-            this.editColumnRecord=res.data.DATA;
-            this.editColumnRecord.push(this.editColumn);
+            if (res.data.DATA === '') {
+              this.editColumnRecord=[];
+              this.editColumnRecord.push(this.editColumn);
+            }else{
+              this.editColumnRecord=res.data.DATA;
+              this.editColumnRecord.push(this.editColumn);
+            }
           })
       }
     }
