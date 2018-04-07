@@ -32,9 +32,9 @@ public class UploadController {
                     ResponseCodeEnum.UNKNOWN_ERROR,"file upload fail, file not empty!");
         }
         // 获取文件名
-        log.info(String.valueOf(file.getSize()));
+        //log.info(String.valueOf(file.getSize()));
         String fileName = file.getOriginalFilename();
-        log.info(fileName);
+        //log.info(fileName);
         //System.out.println("上传的文件名为：" + fileName);
         // 获取文件的后缀名
         //String suffixName = fileName.substring(fileName.lastIndexOf("."));

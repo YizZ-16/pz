@@ -48,12 +48,14 @@
     data () {
       return {
         options: {
-          // https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js
           target: '/api/file/upload',
           testChunks: false,
           singleFile:true,
           withCredentials:true,
-          uploadMethod:'POST'
+          uploadMethod:'POST',
+          method: 'multipart',
+          prioritizeFirstAndLastChunk:true,
+          chunkSize:10*1024*1024
         },
 //        attrs: {
 //          accept: 'image/*'
