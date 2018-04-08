@@ -147,7 +147,7 @@
         uploadModalRowData: [],
         alertMessage:'',
         columns: [
-          {width: 60, titleAlign: 'center',columnAlign:'center',type: 'selection'},
+          {width: 40, titleAlign: 'center',columnAlign:'center',type: 'selection'},
           {field: 'PLANE_AIRLINES', title: '所属航空公司', width:50, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_REG', title:'机号', width: 80, titleAlign: 'center',columnAlign:'center',
           style:'cursor:pointer'},
@@ -159,8 +159,8 @@
           {field: 'PLANE_MZFW', title: '最大无油重量', width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_MZDW', title: '最大起飞重量', width: 90, titleAlign: 'center',columnAlign:'center'},
           {field: 'PLANE_MTOW', title: '最大落地重量',width: 90, titleAlign: 'center',columnAlign:'center'},
-          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 120, titleAlign: 'center',columnAlign:'center'},
-          {field: '',title:'操作',width: 120, titleAlign: 'center',columnAlign:'center',
+          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 100, titleAlign: 'center',columnAlign:'center'},
+          {field: '',title:'操作',width: 100, titleAlign: 'center',columnAlign:'center',
             componentName:'table-operation',isResize:true}
         ],
 
@@ -456,5 +456,9 @@
   }
   .el-button {
     height: 36px
+  }
+
+  i {
+    cursor: pointer
   }
 </style>

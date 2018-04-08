@@ -248,4 +248,12 @@
   .table-body {
     margin-top: 20px;
   }
+
+  .el-table--border::after, .el-table--group::after, .el-table::before {
+    content: '';
+    position: absolute;
+    background-color: #ebeef5;
+    z-index: 1;
+    display: none;
+  }
 </style>

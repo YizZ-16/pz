@@ -358,4 +358,8 @@
   .el-button {
     height: 36px
   }
+
+  i {
+    cursor: pointer
+  }
 </style>
