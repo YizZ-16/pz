@@ -40,7 +40,7 @@ public class UploadController {
         //String suffixName = fileName.substring(fileName.lastIndexOf("."));
         //String relativePath = request.getSession().getServletContext().getRealPath("/");
         // 文件上传后的路径
-        String filePath = "G:\\test\\";
+        String filePath = "D:\\pz\\";
         // 解决中文问题，liunx下中文路径，图片显示问题
         // fileName = UUID.randomUUID() + suffixName;
         File dest = new File(filePath + fileName);
@@ -71,7 +71,7 @@ public class UploadController {
         BufferedInputStream bis = null;
         OutputStream os = null;
         try {
-            String pathname = "G:\\test\\";
+            String pathname = "D:\\pz\\";
             File file1 = new File(pathname + fileName + ".pdf");
             File file2 = new File(pathname + fileName + ".docx");
             File file3 = new File(pathname + fileName + ".doc");

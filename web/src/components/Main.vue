@@ -148,7 +148,7 @@
 
   }
 
-  .el-dropdown {
+  div.el-dropdown {
     position: absolute;
     right: 10%;
   }

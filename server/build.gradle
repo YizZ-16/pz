@@ -13,8 +13,8 @@ buildscript {
 //}
 
 
-group 'pz.com'
-version '1.0-SNAPSHOT'
+//group 'pz.com'
+//version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -49,8 +49,19 @@ dependencies {
     compile("org.apache.shiro:shiro-spring:1.4.0")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
+//configurations {
+//    compile.exclude module: "spring-boot-starter-tomcat"
+//}
 
 bootRun {
     //gradle bootRun --debug-jvm
     jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 }
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2'
+}
+

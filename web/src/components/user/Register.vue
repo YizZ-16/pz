@@ -91,8 +91,15 @@
 
         this.$axios.post('/api/register', userInfo)
           .then((res) => {
-
-        });
+          if(res.data.CODE === 0) {
+            this.$router.push('/login');
+          }else{
+            alert('注册失败')
+          }
+        }, (err) => {
+          console.log(err);
+          alert('注册失败')
+          });
       },
       resetForm () {
 //        this.ruleForm.account = '';
