@@ -38,18 +38,18 @@
     data () {
       return {
         columnsEdit: [
-          {field: 'PLANE_AIRLINES', title: '所属航空公司', width:80, titleAlign: 'center',columnAlign:'center',
+          {field: 'PLANE_AIRLINES', title: '所属航空公司', width:50, titleAlign: 'center',columnAlign:'center',
             isEdit:true},
-          {field: 'PLANE_REG', title:'机号', width: 80, titleAlign: 'center',columnAlign:'center', isEdit:true},
-          {field: 'PLANE_TYPE', title: '机型', width: 80, titleAlign: 'center',columnAlign:'center', isEdit:true},
-          {field: 'PLANE_BUJU', title: '飞机布局', width: 80, titleAlign: 'center',columnAlign:'center', isEdit:true},
+          {field: 'PLANE_REG', title:'机号', width: 120, titleAlign: 'center',columnAlign:'center', isEdit:true},
+          {field: 'PLANE_TYPE', title: '机型', width: 100, titleAlign: 'center',columnAlign:'center', isEdit:true},
+          {field: 'PLANE_BUJU', title: '飞机布局', width: 100, titleAlign: 'center',columnAlign:'center', isEdit:true},
           {field: 'PLANE_CND', title: 'CND表号', width: 80, titleAlign: 'center',columnAlign:'center', isEdit:true},
-          {field: 'PLANE_BOW', title: '基本重量', width: 120, titleAlign: 'center',columnAlign:'center', isEdit:true},
-          {field: 'PLANE_BOI', title: '基本指数', width: 120, titleAlign: 'center',columnAlign:'center', isEdit:true},
-          {field: 'PLANE_MZFW', title: '最大无油重量', width: 80, titleAlign: 'center',columnAlign:'center', isEdit:true},
-          {field: 'PLANE_MZDW', title: '最大起飞重量', width: 80, titleAlign: 'center',columnAlign:'center', isEdit:true},
-          {field: 'PLANE_MTOW', title: '最大落地重量',width: 80, titleAlign: 'center',columnAlign:'left', isEdit:true},
-          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 180, titleAlign: 'center',columnAlign:'center', isEdit:true}
+          {field: 'PLANE_BOW', title: '基本重量', width: 100, titleAlign: 'center',columnAlign:'center', isEdit:true},
+          {field: 'PLANE_BOI', title: '基本指数', width: 80, titleAlign: 'center',columnAlign:'center', isEdit:true},
+          {field: 'PLANE_MZFW', title: '最大无油重量', width: 90, titleAlign: 'center',columnAlign:'center', isEdit:true},
+          {field: 'PLANE_MZDW', title: '最大起飞重量', width: 90, titleAlign: 'center',columnAlign:'center', isEdit:true},
+          {field: 'PLANE_MTOW', title: '最大落地重量',width: 90, titleAlign: 'center',columnAlign:'left', isEdit:true},
+//          {field: 'PLANE_UPDATE_DATE', title: '更新时间', width: 180, titleAlign: 'center',columnAlign:'center', isEdit:true}
         ],
         addColumn:[{'PLANE_AIRLINES':'','PLANE_REG':'','PLANE_TYPE':'','PLANE_BUJU':'',
           'PLANE_CND':'','PLANE_BOW':'','PLANE_BOI':'','PLANE_MZFW':'','PLANE_MZDW':'',

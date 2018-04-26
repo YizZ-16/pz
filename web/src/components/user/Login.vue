@@ -19,7 +19,6 @@
 </template>
 
 <style scoped>
-
   .loginPage{
     position: absolute;
     top: 40%;

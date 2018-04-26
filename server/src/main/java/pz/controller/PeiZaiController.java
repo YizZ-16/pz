@@ -48,8 +48,9 @@ public class PeiZaiController {
             model.setMtow(jsonObject.getInt("PLANE_MTOW"));
             model.setMzdw(jsonObject.getInt("PLANE_MZDW"));
             model.setMzfw(jsonObject.getInt("PLANE_MZFW"));
-            String date = jsonObject.getString("PLANE_UPDATE_DATE");
-            Date date1 = Date.valueOf(date);
+//            String date = jsonObject.getString("PLANE_UPDATE_DATE");
+            long time = System.currentTimeMillis();
+            Date date1 = new Date(time);
             model.setUpdateDate(date1);
             Long inDateLon = jsonObject.getLong("PLANE_INSERT_DATE");
             java.util.Date inDate = new java.util.Date();
@@ -87,8 +88,9 @@ public class PeiZaiController {
             model.setMtow(jsonObject.getInt("PLANE_MTOW"));
             model.setMzdw(jsonObject.getInt("PLANE_MZDW"));
             model.setMzfw(jsonObject.getInt("PLANE_MZFW"));
-            String updateStr = jsonObject.getString("PLANE_UPDATE_DATE");
-            Date date1 = Date.valueOf(updateStr);
+            //String updateStr = jsonObject.getString("PLANE_UPDATE_DATE");
+            long time = System.currentTimeMillis();
+            Date date1 = new Date(time);
             model.setUpdateDate(date1);
             java.util.Date date = new java.util.Date();
             model.setInsertDate(date);
