@@ -31,23 +31,23 @@
                 align="center"
               >
               </el-table-column>
-              <el-table-column type="expand" >
-                <template slot-scope="props">
-                  <el-table
-                    :data="props.row.REG"
-                    border
-                    max-height="400"
-                    style="width: 151px"
-                    align="center">
-                    <el-table-column
-                      align="center"
-                      width="150px"
-                      label="机号"
-                      prop="PLANE_REG">
-                    </el-table-column>
-                  </el-table>
-                </template>
-              </el-table-column>
+              <!--<el-table-column type="expand" >-->
+                <!--<template slot-scope="props">-->
+                  <!--<el-table-->
+                    <!--:data="props.row.REG"-->
+                    <!--border-->
+                    <!--max-height="400"-->
+                    <!--style="width: 151px"-->
+                    <!--align="center">-->
+                    <!--<el-table-column-->
+                      <!--align="center"-->
+                      <!--width="150px"-->
+                      <!--label="机号"-->
+                      <!--prop="PLANE_REG">-->
+                    <!--</el-table-column>-->
+                  <!--</el-table>-->
+                <!--</template>-->
+              <!--</el-table-column>-->
             </el-table>
           </slot>
         </div>

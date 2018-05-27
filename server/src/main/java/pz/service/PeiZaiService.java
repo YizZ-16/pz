@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pz.dao.PeiZaiDao;
@@ -60,7 +61,7 @@ public class PeiZaiService {
 
     }
 
-    public boolean addOne(PeiZaiModel p) {
+    public boolean addOne (PeiZaiModel p) throws Exception{
         PeiZaiModel addModel = peiZaiDao.save(p);
         if (addModel != null) return true;
         return false;
@@ -83,8 +84,7 @@ public class PeiZaiService {
 
     public HashMap<String, Object> findAll(Integer pageIndex, Integer pageSize) {
         HashMap<String, Object> map = new HashMap<>();
-        Page<PeiZaiModel> page = peiZaiDao.findAll(new PageRequest(pageIndex, pageSize));
-        //map.put("TOTAL_PAGES", page.getTotalPages());
+        Page<PeiZaiModel> page = peiZaiDao.findAllByOrderByAirlines(new PageRequest(pageIndex, pageSize));
         map.put("TOTAL_ELEMENTS", page.getTotalElements());
         List<PeiZaiModel> list= page.getContent();
         List<HashMap<String, String>> lm = new ArrayList<>();

@@ -45,9 +45,19 @@ public class PeiZaiController {
             model.setCnd(jsonObject.getString("PLANE_CND"));
             model.setBoi(jsonObject.getString("PLANE_BOI"));
             model.setBow(jsonObject.getString("PLANE_BOW"));
-            model.setMtow(jsonObject.getInt("PLANE_MTOW"));
-            model.setMzdw(jsonObject.getInt("PLANE_MZDW"));
-            model.setMzfw(jsonObject.getInt("PLANE_MZFW"));
+            model.setMtow(jsonObject.getString("PLANE_MTOW"));
+            if (jsonObject.isNull("PLANE_MZDW") ||
+                    "".equals(jsonObject.get("PLANE_MZDW"))) {
+                model.setMzdw(null);
+            }else{
+                model.setMzdw(jsonObject.getInt("PLANE_MZDW"));
+            }
+            if (jsonObject.isNull("PLANE_MZFW") ||
+                    "".equals(jsonObject.get("PLANE_MZFW"))) {
+                model.setMzfw(null);
+            }else {
+                model.setMzfw(jsonObject.getInt("PLANE_MZFW"));
+            }
 //            String date = jsonObject.getString("PLANE_UPDATE_DATE");
             long time = System.currentTimeMillis();
             Date date1 = new Date(time);
@@ -85,9 +95,19 @@ public class PeiZaiController {
             model.setCnd(jsonObject.getString("PLANE_CND"));
             model.setBoi(jsonObject.getString("PLANE_BOI"));
             model.setBow(jsonObject.getString("PLANE_BOW"));
-            model.setMtow(jsonObject.getInt("PLANE_MTOW"));
-            model.setMzdw(jsonObject.getInt("PLANE_MZDW"));
-            model.setMzfw(jsonObject.getInt("PLANE_MZFW"));
+            model.setMtow(jsonObject.getString("PLANE_MTOW"));
+            if (jsonObject.isNull("PLANE_MZDW") ||
+                    "".equals(jsonObject.get("PLANE_MZDW"))) {
+                model.setMzdw(null);
+            }else{
+                model.setMzdw(jsonObject.getInt("PLANE_MZDW"));
+            }
+            if (jsonObject.isNull("PLANE_MZFW") ||
+                    "".equals(jsonObject.get("PLANE_MZFW"))) {
+                model.setMzfw(null);
+            }else {
+                model.setMzfw(jsonObject.getInt("PLANE_MZFW"));
+            }
             //String updateStr = jsonObject.getString("PLANE_UPDATE_DATE");
             long time = System.currentTimeMillis();
             Date date1 = new Date(time);
@@ -98,6 +118,7 @@ public class PeiZaiController {
              boolean flag = peiZaiService.addOne(model);
              return responseService.success(flag);
         }catch (Exception e){
+            e.printStackTrace();
             return responseService.fail(
                     ResponseCodeEnum.ADD_ERROR, "add error"
             );
